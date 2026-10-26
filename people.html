@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>成员 PEOPLE · TiDE Lab</title>
+<link rel="stylesheet" href="assets/css/tokens.css?v=20261026d">
+<link rel="stylesheet" href="assets/css/base.css?v=20261026d">
+<style>
+  /* 负责人双卡（LEADERSHIP） */
+  .ldr-card { border: 1px solid var(--line); display: flex; flex-direction: column; }
+  .ldr-head { display: grid; grid-template-columns: 180px minmax(0, 1fr); }
+  .ldr-photo { aspect-ratio: 3/4; background: var(--bg-soft); }
+  .ldr-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ldr-photo .photo-empty { font-size: 40px; }
+  .ldr-info { padding: var(--sp-3); }
+  .ldr-badge { display: inline-block; background: var(--tide-purple); color: var(--bg);
+    font-weight: 700; font-size: var(--fs-small); padding: 6px 10px; }
+  .ldr-badge .en { display: block; font-family: var(--font-en); font-weight: 400;
+    font-size: var(--fs-tiny); letter-spacing: .12em; text-transform: uppercase; margin-top: 2px; }
+  .ldr-name { font-size: var(--fs-h2); font-weight: 900; line-height: 1.15; margin-top: var(--sp-2); }
+  .ldr-name-en { font-family: "Helvetica Neue", Arial, sans-serif; font-size: var(--fs-small);
+    letter-spacing: .16em; color: var(--ink-2); text-transform: uppercase; font-weight: 300; margin-top: 4px; }
+  .ldr-meta { margin-top: var(--sp-2); font-size: var(--fs-small); }
+  .ldr-meta .row { padding: 4px 0; border-bottom: 1px solid var(--line); }
+  .ldr-meta .k { color: var(--gray); margin-right: 6px; }
+  .ldr-meta a { border-bottom: 1px solid var(--ink); font-weight: 700; }
+  .ldr-meta a:hover { color: var(--tide-purple); border-color: var(--tide-purple); }
+  .ldr-focus { margin-top: var(--sp-2); font-weight: 700; font-size: var(--fs-small); }
+  .ldr-focus .en { color: var(--gray); font-weight: 400; }
+  .ldr-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--sp-2); }
+  .ldr-body { padding: 0 var(--sp-3) var(--sp-3); flex: 1; }
+  .ldr-body .blk { margin-top: var(--sp-3); }
+  .ldr-bio p { margin-bottom: var(--sp-2); font-size: var(--fs-small); }
+  .ldr-bio .p-en { color: var(--gray); }
+  /* 研究方向子方向卡 */
+  .area-card { border: 1px solid var(--line); padding: var(--sp-3); }
+  .area-card .n { font-family: var(--font-en); font-size: var(--fs-small); color: var(--gray); }
+  .area-card .t { font-weight: 900; font-size: var(--fs-h3); margin-top: 6px; }
+  .area-card .t-en { font-family: "Helvetica Neue", Arial, sans-serif; font-size: var(--fs-tiny);
+    letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); margin-top: 4px; }
+  .area-card .d { font-size: var(--fs-small); color: var(--gray); margin-top: var(--sp-2); }
+  /* 列表 */
+  .plain-list { list-style: none; }
+  .plain-list li { padding: 10px 0; border-bottom: 1px solid var(--line); font-size: var(--fs-small); }
+  @media (max-width: 1080px) {
+    .ldr-head { grid-template-columns: 1fr; }
+    .ldr-photo { max-width: 280px; }
+  }
+</style>
+</head>
+<body data-page="people">
+<div id="tide-nav"></div>
+
+<main class="wrap">
+  <div id="page-head"></div>
+
+  <!-- ===== 实验室负责人 ===== -->
+  <section id="leadership"></section>
+
+  <!-- ===== 分组：博士生 / 硕士生 / 研究工程师 ===== -->
+  <div id="groups"></div>
+</main>
+
+<div id="tide-footer"></div>
+
+<script src="data/site.js?v=20261026d"></script>
+<script src="data/research.js?v=20261026d"></script>
+<script src="data/projects.js?v=20261026d"></script>
+<script src="data/members.js?v=20261026d"></script>
+<script src="data/outputs.js?v=20261026d"></script>
+<script src="assets/js/ui.js?v=20261026d"></script>
+<script>
+(function () {
+  var U = TIDE_UI;
+
+  /* 页面头 */
+  document.getElementById("page-head").innerHTML =
+    U.secHead("成员", "PEOPLE", "Space · Data<br/>Materials · Tomorrow", "green") +
+    '<p style="max-width:720px;color:var(--ink-2);font-size:var(--fs-small)">' +
+    '实验室负责人与在组博士生、硕士生、研究工程师。成员信息依据收集表字段结构呈现，未提交资料的成员显示占位。' +
+    '</p>';
+
+  /* ===== 负责人双卡 ===== */
+  var PH = U.placeholder("待补充");
+
+  function listItems(arr) {
+    return '<ul class="plain-list">' + arr.map(function (x) { return "<li>" + x + "</li>"; }).join("") + "</ul>";
+  }
+  function blk(zh, en, inner) {
+    return '<div class="blk"><h3>' + zh + ' <span class="en">' + en + "</span></h3>" + inner + "</div>";
+  }
+  function metaRow(k, v) {
+    return '<div class="row"><span class="k">' + k + "</span>" + (v || PH) + "</div>";
+  }
+
+  function leaderCard(L) {
+    var bioInner = "";
+    if ((L.bioZh || []).length || (L.bioEn || []).length) {
+      bioInner = '<div class="ldr-bio">' +
+        (L.bioZh || []).map(function (p) { return "<p>" + p + "</p>"; }).join("") +
+        (L.bioEn || []).map(function (p) { return '<p class="p-en">' + p + "</p>"; }).join("") +
+        "</div>";
+    }
+
+    var areasInner = (L.researchAreas && L.researchAreas.length)
+      ? L.researchAreas.map(function (r, i) {
+          return '<div class="area-card"><div class="n">0' + (i + 1) + "</div>" +
+            '<div class="t">' + r.zh + '</div><div class="t-en">' + r.en + "</div>" +
+            '<div class="d">' + r.descZh + "</div></div>";
+        }).join("")
+      : "";
+
+    var emailHtml = L.email
+      ? '<a href="mailto:' + L.email + '">' + L.email + "</a>"
+      : "";
+    var affHtml = (L.affiliationZh || L.affiliationEn)
+      ? L.affiliationZh + (L.affiliationEn ? " · " + L.affiliationEn : "")
+      : "";
+    var titleHtml = (L.titleZh || L.titleEn)
+      ? L.titleZh + (L.titleEn ? ' <span class="en" style="font-weight:300;color:var(--ink-2)">' + L.titleEn + "</span>" : "")
+      : "";
+
+    var metaRows = "";
+    if (titleHtml) metaRows += metaRow("职称", titleHtml);
+    if (affHtml) metaRows += metaRow("单位", affHtml);
+    if (emailHtml) metaRows += metaRow("邮箱", emailHtml);
+    if (L.homepage) metaRows += '<div class="row"><span class="k">主页</span><a href="' + L.homepage + '" target="_blank" rel="noopener">HOMEPAGE &rarr;</a></div>';
+    if (L.office) metaRows += '<div class="row"><span class="k">办公室</span>' + L.office + "</div>";
+
+    var focusHtml = (L.focusZh || L.focusEn)
+      ? '<div class="ldr-focus">' + L.focusZh + '<div class="en">' + L.focusEn + "</div></div>"
+      : "";
+    var tagsHtml = (L.keywords && L.keywords.length)
+      ? '<div class="ldr-tags">' + L.keywords.map(function (k) { return '<span class="tag">' + k + "</span>"; }).join("") + "</div>"
+      : "";
+
+    var bodyBlocks = "";
+    if (bioInner) bodyBlocks += blk("个人简介", "BIOGRAPHY", bioInner);
+    if (areasInner) bodyBlocks += blk("研究方向", "RESEARCH AREAS", areasInner);
+    if (L.education && L.education.length) bodyBlocks += blk("教育经历", "EDUCATION", listItems(L.education));
+    if (L.positions && L.positions.length) bodyBlocks += blk("工作经历", "POSITIONS", listItems(L.positions));
+    if (L.appointments && L.appointments.length) bodyBlocks += blk("学术兼职", "APPOINTMENTS", listItems(L.appointments));
+    if (L.courses && L.courses.length) bodyBlocks += blk("教授课程", "COURSES", '<div class="ldr-tags">' + L.courses.map(function (c) { return '<span class="tag">' + c + "</span>"; }).join("") + "</div>");
+    if (L.honors && L.honors.length) bodyBlocks += blk("荣誉奖项", "HONORS", listItems(L.honors));
+    if (L.patents && L.patents.length) bodyBlocks += blk("专利", "PATENTS", listItems(L.patents));
+
+    return '<div class="ldr-card">' +
+      '<div class="ldr-head">' +
+        '<div class="ldr-photo">' + U.img(L.photo, L.nameZh) + "</div>" +
+        '<div class="ldr-info">' +
+          '<div class="ldr-badge">' + L.roleLabelZh + '<span class="en">' + L.roleLabelEn + "</span></div>" +
+          '<div class="ldr-name">' + L.nameZh + "</div>" +
+          '<div class="ldr-name-en">' + L.nameEn + "</div>" +
+          (metaRows ? '<div class="ldr-meta">' + metaRows + "</div>" : "") +
+          focusHtml + tagsHtml +
+        "</div>" +
+      "</div>" +
+      (bodyBlocks ? '<div class="ldr-body">' + bodyBlocks + "</div>" : "") +
+    "</div>";
+  }
+
+  document.getElementById("leadership").innerHTML =
+    U.secHead("实验室负责人", "LEADERSHIP", "", "purple") +
+    '<div class="grid c2" style="align-items:stretch">' +
+    TIDE_LEADERS.map(leaderCard).join("") +
+    "</div>";
+
+  /* ===== 分组渲染 ===== */
+  document.getElementById("groups").innerHTML = TIDE_MEMBER_GROUPS.map(function (g) {
+    var members = TIDE_MEMBERS.filter(function (m) { return m.group === g.key; });
+    if (!members.length) return "";
+    return U.secHead(g.zh, g.en.toUpperCase(), "", "green") +
+      (g.descZh
+        ? '<p style="max-width:720px;color:var(--ink-2);font-size:var(--fs-small);margin-top:calc(var(--sp-2) * -1)">' + g.descZh + "</p>"
+        : "") +
+      '<div class="grid c4">' + members.map(U.personCard).join("") + "</div>";
+  }).join("");
+})();
+</script>
+</body>
+</html>

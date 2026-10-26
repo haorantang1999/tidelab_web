@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>项目详情 · TiDE Lab · 清华SIGS未来人居数字引擎实验室</title>
+<link rel="stylesheet" href="assets/css/tokens.css?v=20261026d">
+<link rel="stylesheet" href="assets/css/base.css?v=20261026d">
+<style>
+/* 项目详情页特有布局（参考 02-tide-project-detail.png，仅用 var(--*) 令牌） */
+.cover-figure { margin: var(--sp-3) 0; }
+.cover-figure img { width: 100%; max-height: 560px; object-fit: cover; }
+.cover-figure figcaption { font-size: var(--fs-tiny); color: var(--gray); margin-top: 6px; }
+
+.honor-item { padding: var(--sp-2) 0; border-bottom: 1px solid var(--line); }
+.honor-item .h-zh { font-weight: 700; font-size: var(--fs-small); }
+.honor-item .h-en { font-size: var(--fs-tiny); color: var(--gray); }
+
+.gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3); }
+.gallery-grid figure img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+.gallery-grid figure:first-child { grid-column: 1 / -1; }
+.gallery-grid figure:first-child img { aspect-ratio: 16/8; }
+
+.process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-3); }
+.process-step { border: 1px dashed var(--gray-2); padding: var(--sp-3) var(--sp-2); text-align: center; color: var(--gray); }
+.process-step .p-num { font-family: var(--font-en); font-size: var(--fs-tiny); color: var(--gray-2); letter-spacing: .14em; }
+.process-step .p-title { font-family: var(--font-en); font-weight: 900; font-size: var(--fs-h3); color: var(--ink-2); letter-spacing: .1em; margin: 6px 0; }
+.process-step .p-note { font-size: var(--fs-tiny); }
+
+.next-card {
+  display: block; border: 1px solid var(--line); background: var(--bg);
+  transition: box-shadow .2s; overflow: hidden;
+}
+.next-card:hover { box-shadow: var(--shadow); }
+.next-card .n-thumb { aspect-ratio: 16/6; overflow: hidden; background: var(--bg-soft); position: relative; }
+.next-card .n-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .35s; }
+.next-card:hover .n-thumb img { transform: scale(1.03); }
+.next-card .n-body { padding: var(--sp-3); display: flex; justify-content: space-between; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.next-card .n-title { font-weight: 900; font-size: var(--fs-h2); }
+.next-card .n-title-en { font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 300; font-size: var(--fs-small); letter-spacing: .12em; color: var(--ink-2); text-transform: uppercase; }
+.next-card .n-arrow { font-family: var(--font-en); font-size: var(--fs-h2); color: var(--tide-purple); }
+
+.missing { padding: var(--sp-6) 0; }
+.missing .back { margin-top: var(--sp-3); }
+
+@media (max-width: 1080px) {
+  .gallery-grid, .process-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .gallery-grid, .process-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body data-page="project">
+<div id="tide-nav"></div>
+
+<div class="detail" id="detail-root">
+  <aside class="rail"><div class="vertical">TiDE LAB</div></aside>
+  <main class="detail-main" id="detail-main"></main>
+</div>
+
+<div id="tide-footer"></div>
+
+<script src="data/site.js?v=20261026d"></script>
+<script src="data/projects.js?v=20261026d"></script>
+<script src="assets/js/ui.js?v=20261026d"></script>
+<script>
+(function () {
+  var U = TIDE_UI;
+  var root = document.getElementById("detail-main");
+
+  /* 深链：id 缺失或不存在 → 占位 + 返回链接 */
+  var id = U.query("id");
+  var idx = -1;
+  if (id) {
+    for (var i = 0; i < TIDE_PROJECTS.length; i++) {
+      if (TIDE_PROJECTS[i].id === id) { idx = i; break; }
+    }
+  }
+  if (idx < 0) {
+    root.innerHTML =
+      U.crumbs([
+        { label: "首页", href: "index.html" },
+        { label: "项目", href: "projects.html" },
+        { label: "未找到" }
+      ]) +
+      '<div class="missing">' + U.placeholder("项目不存在") +
+      '<div class="back"><a class="biglink" href="projects.html">&larr; 返回项目列表 PROJECTS</a></div></div>';
+    return;
+  }
+
+  var p = TIDE_PROJECTS[idx];
+  document.title = p.titleZh + " · TiDE Lab";
+
+  /* 状态点颜色映射 */
+  var statusDot = (function (s) {
+    if (s === "已建成" || s === "落成") return "green";
+    if (s === "在建") return "teal";
+    if (s === "竞赛方案") return "yellow";
+    if (s === "进行中") return "purple";
+    return "purple";
+  })(p.statusZh);
+
+  var total = ("0" + TIDE_PROJECTS.length).slice(-2);
+  var html = "";
+
+  /* 面包屑 */
+  html += U.crumbs([
+    { label: "首页", href: "index.html" },
+    { label: "项目", href: "projects.html" },
+    { label: p.titleZh }
+  ]);
+
+  /* 标签 + 序号 */
+  html += '<div class="detail-label"><span class="k">' + (p.categoryEn || p.categoryZh) + '</span>' +
+    '<span class="i">' + p.num + " / " + total + "</span></div>";
+
+  /* 大标题 */
+  html += '<h1 class="detail-title">' + p.titleZh + "</h1>" +
+    '<div class="detail-title-en">' + p.titleEn + "</div>";
+
+  /* 中英简介 */
+  html += '<div class="detail-lead">';
+  (p.descZh || []).forEach(function (t) { html += "<p>" + t + "</p>"; });
+  (p.descEn || []).forEach(function (t) { html += '<p class="p-en">' + t + "</p>"; });
+  html += "</div>";
+
+  /* 元信息表 */
+  html += '<div class="meta-table">' +
+    "<div><div class=\"k\">Type 类型</div><div class=\"v\">" + p.categoryZh + "</div></div>" +
+    "<div><div class=\"k\">Theme 主题</div><div class=\"v\">" + (p.themeZh || "—") + "</div></div>" +
+    "<div><div class=\"k\">Period 时间</div><div class=\"v\">" + (p.period || p.statusZh || "—") + "</div></div>" +
+    "<div><div class=\"k\">Status 状态</div><div class=\"v\"><span class=\"dot " + statusDot + "\"></span>" + (p.statusZh || "—") + "</div></div>" +
+    "</div>";
+
+  /* 主图 + 图注 */
+  var coverCaption = (p.gallery && p.gallery.length && p.gallery[0].captionZh)
+    ? p.gallery[0].captionZh + " · " + (p.gallery[0].captionEn || "")
+    : p.titleZh + " · " + p.titleEn;
+  html += '<figure class="cover-figure">' + U.img(p.cover, p.titleZh) +
+    "<figcaption>" + coverCaption + "</figcaption></figure>";
+
+  /* 项目荣誉（为空不显示） */
+  if (p.awardsZh && p.awardsZh.length) {
+    html += '<section class="blk"><h3>项目荣誉 <span class="en">HONORS</span></h3>';
+    p.awardsZh.forEach(function (a, i) {
+      html += '<div class="honor-item"><div class="h-zh">' + a + "</div>" +
+        (p.awardsEn && p.awardsEn[i] ? '<div class="h-en">' + p.awardsEn[i] + "</div>" : "") + "</div>";
+    });
+    html += "</section>";
+  }
+
+  /* 合作方（为空不显示） */
+  if (p.collaborators && p.collaborators.length) {
+    html += '<section class="blk"><h3>合作方 <span class="en">COLLABORATORS</span></h3>';
+    p.collaborators.forEach(function (c) {
+      html += '<div class="rowitem"><span class="t">' + c + '</span><span class="arrow">›</span></div>';
+    });
+    html += "</section>";
+  }
+
+  /* 项目图集 */
+  if (p.gallery && p.gallery.length) {
+    html += '<section class="blk"><h3>项目图集 <span class="en">GALLERY</span></h3><div class="gallery-grid">';
+    p.gallery.forEach(function (g) {
+      html += "<figure>" + U.img(g.src, g.captionZh) +
+        "<figcaption>" + g.captionZh + (g.captionEn ? " · " + g.captionEn : "") + "</figcaption></figure>";
+    });
+    html += "</div></section>";
+  }
+
+  /* 过程（暂无数据 → 四阶段占位） */
+  var steps = ["DESIGN", "SIMULATION", "FABRICATION", "TESTING"];
+  html += '<section class="blk"><h3>过程 <span class="en">PROCESS</span></h3><div class="process-grid">';
+  steps.forEach(function (s, i) {
+    html += '<div class="process-step"><div class="p-num">0' + (i + 1) + "</div>" +
+      '<div class="p-title">' + s + '</div><div class="p-note">待补充</div></div>';
+  });
+  html += "</div></section>";
+
+  /* 相关项目：同类别、排除自身、最多3个 */
+  var related = TIDE_PROJECTS.filter(function (q) {
+    return q.id !== p.id && q.categoryZh === p.categoryZh;
+  }).slice(0, 3);
+  html += '<section class="blk"><h3>相关项目 <span class="en">RELATED</span></h3>';
+  if (related.length) {
+    html += '<div class="grid c3">' + related.map(U.projectCard).join("") + "</div>";
+  } else {
+    html += '<a class="card" href="research.html"><div class="body" style="padding:var(--sp-3)">' +
+      '<div class="title">研究方向</div><div class="title-en">RESEARCH DIRECTIONS</div>' +
+      '<div class="desc">暂无同类别其它项目，前往了解实验室四大研究方向。</div>' +
+      '<div class="under"></div></div></a>';
+  }
+  html += "</section>";
+
+  /* 下一个项目（循环） */
+  var next = TIDE_PROJECTS[(idx + 1) % TIDE_PROJECTS.length];
+  html += '<section class="blk"><h3>下一个项目 <span class="en">NEXT PROJECT</span></h3>' +
+    '<a class="next-card" href="project.html?id=' + next.id + '">' +
+    '<div class="n-thumb"><span class="num" style="position:absolute;top:10px;left:12px;font-family:var(--font-en);font-size:15px;color:var(--bg);text-shadow:0 1px 4px var(--bg-dark)">' + next.num + "</span>" +
+    U.img(next.cover, next.titleZh) + "</div>" +
+    '<div class="n-body"><div><div class="n-title">' + next.titleZh + '</div>' +
+    '<div class="n-title-en">' + next.titleEn + "</div></div>" +
+    '<div class="n-arrow">&rarr;</div></div></a></section>';
+
+  root.innerHTML = html;
+})();
+</script>
+</body>
+</html>

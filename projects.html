@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>项目 PROJECTS · TiDE Lab · 清华SIGS未来人居数字引擎实验室</title>
+<link rel="stylesheet" href="assets/css/tokens.css?v=20261026d">
+<link rel="stylesheet" href="assets/css/base.css?v=20261026d">
+<style>
+/* 项目列表页特有布局（仅使用 var(--*) 令牌） */
+.page-head { padding: var(--sp-5) 0 0; }
+.page-head .ph-title { font-size: var(--fs-h1); font-weight: 900; line-height: 1.15; }
+.page-head .ph-title .en { font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 300; color: var(--ink-2); letter-spacing: .14em; margin-left: 10px; }
+.page-head .ph-lead { margin-top: var(--sp-2); max-width: 720px; }
+.page-head .ph-lead .en { color: var(--gray); font-size: var(--fs-small); }
+</style>
+</head>
+<body data-page="projects">
+<div id="tide-nav"></div>
+
+<main class="wrap">
+  <header class="page-head">
+    <h1 class="ph-title">项目 <span class="en">PROJECTS</span></h1>
+    <div class="ph-lead">
+      <p>以横向项目为主的真实世界实践。</p>
+      <p class="en">Practice-driven research through real-world commissioned projects.</p>
+    </div>
+  </header>
+
+  <div class="filterbar" id="filterbar"></div>
+  <div class="grid c3" id="projects-grid"></div>
+</main>
+
+<div id="tide-footer"></div>
+
+<script src="data/site.js?v=20261026d"></script>
+<script src="data/projects.js?v=20261026d"></script>
+<script src="assets/js/ui.js?v=20261026d"></script>
+<script>
+(function () {
+  var U = TIDE_UI;
+
+  /* 类别筛选：按 categoryZh 去重生成 */
+  var cats = [];
+  TIDE_PROJECTS.forEach(function (p) {
+    if (cats.indexOf(p.categoryZh) < 0) cats.push(p.categoryZh);
+  });
+  var filters = ["全部"].concat(cats);
+  var current = "全部";
+
+  function renderBar() {
+    document.getElementById("filterbar").innerHTML = filters.map(function (c) {
+      return '<button data-cat="' + c + '"' + (c === current ? ' class="on"' : "") + ">" + c + "</button>";
+    }).join("");
+  }
+
+  function renderGrid() {
+    var list = current === "全部"
+      ? TIDE_PROJECTS
+      : TIDE_PROJECTS.filter(function (p) { return p.categoryZh === current; });
+    document.getElementById("projects-grid").innerHTML = list.length
+      ? list.map(U.projectCard).join("")
+      : U.placeholder("该类别暂无项目");
+  }
+
+  document.getElementById("filterbar").addEventListener("click", function (e) {
+    var btn = e.target.closest("button");
+    if (!btn) return;
+    current = btn.getAttribute("data-cat");
+    renderBar();
+    renderGrid();
+  });
+
+  renderBar();
+  renderGrid();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>成果 OUTPUTS · TiDE Lab</title>
+<link rel="stylesheet" href="assets/css/tokens.css?v=20261026d">
+<link rel="stylesheet" href="assets/css/base.css?v=20261026d">
+<style>
+  .equip-figure img { width: 100%; border: 1px solid var(--line); }
+  .equip-figure figcaption { font-size: var(--fs-tiny); color: var(--gray); margin-top: 8px; }
+</style>
+</head>
+<body data-page="outputs">
+<div id="tide-nav"></div>
+
+<main class="wrap">
+  <div id="page-head"></div>
+
+  <!-- ===== 论文 ===== -->
+  <div id="sec-pubs-head"></div>
+  <div class="filterbar" id="year-filter"></div>
+  <div id="pubs-list"></div>
+
+  <!-- ===== 专利 ===== -->
+  <div id="sec-patents-head"></div>
+  <div id="patents-list"></div>
+
+  <!-- ===== 获奖精选 ===== -->
+  <div id="sec-awards-head"></div>
+  <div id="awards-list"></div>
+
+  <!-- ===== 实验室作品 ===== -->
+  <div id="sec-works-head"></div>
+  <div class="grid c3" id="works-grid"></div>
+
+  <!-- ===== 实验室设备 ===== -->
+  <div id="sec-equip-head"></div>
+  <div id="equip-block"></div>
+</main>
+
+<div id="tide-footer"></div>
+
+<script src="data/site.js?v=20261026d"></script>
+<script src="data/research.js?v=20261026d"></script>
+<script src="data/projects.js?v=20261026d"></script>
+<script src="data/members.js?v=20261026d"></script>
+<script src="data/outputs.js?v=20261026d"></script>
+<script src="assets/js/ui.js?v=20261026d"></script>
+<script>
+(function () {
+  var U = TIDE_UI;
+
+  /* 页面头 */
+  document.getElementById("page-head").innerHTML =
+    U.secHead("成果", "OUTPUTS", "Knowledge for<br/>a More Open Tomorrow", "yellow") +
+    '<p style="max-width:720px;color:var(--ink-2);font-size:var(--fs-small)">' +
+    '实验室论文、专利、获奖与作品设备一览。更多成员个人成果见成员详情页。' +
+    '</p>';
+
+  /* ===== 论文（按 year 降序 + 年份筛选） ===== */
+  var pubs = TIDE_PUBLICATIONS.slice().sort(function (a, b) { return b.year - a.year; });
+  var years = [];
+  pubs.forEach(function (p) { if (years.indexOf(p.year) < 0) years.push(p.year); });
+
+  function pubRow(p) {
+    return '<div class="rowitem"><div>' +
+      '<div class="t">' + p.title + "</div>" +
+      '<div class="s">' + p.authors + " ｜ " + p.venue + "</div>" +
+      "</div>" +
+      '<div class="arrow">' + p.year + "</div></div>";
+  }
+
+  function renderPubs(year) {
+    var list = year ? pubs.filter(function (p) { return p.year === year; }) : pubs;
+    document.getElementById("pubs-list").innerHTML = list.length
+      ? list.map(pubRow).join("")
+      : U.placeholder("该年份暂无论文");
+  }
+
+  document.getElementById("sec-pubs-head").innerHTML =
+    U.secHead("论文", "PUBLICATIONS", "", "yellow");
+  var filterHtml = '<button data-y="" class="on">全部 ALL</button>' + years.map(function (y) {
+    return '<button data-y="' + y + '">' + y + "</button>";
+  }).join("");
+  var filterEl = document.getElementById("year-filter");
+  filterEl.innerHTML = filterHtml;
+  filterEl.addEventListener("click", function (e) {
+    var btn = e.target.closest("button");
+    if (!btn) return;
+    filterEl.querySelectorAll("button").forEach(function (b) { b.classList.remove("on"); });
+    btn.classList.add("on");
+    renderPubs(btn.getAttribute("data-y") ? parseInt(btn.getAttribute("data-y"), 10) : null);
+  });
+  renderPubs(null);
+
+  /* ===== 专利 ===== */
+  document.getElementById("sec-patents-head").innerHTML =
+    U.secHead("专利", "PATENTS", "", "yellow");
+  document.getElementById("patents-list").innerHTML = TIDE_PATENTS.length
+    ? TIDE_PATENTS.map(function (p) {
+        return '<div class="rowitem"><div>' +
+          '<div class="t">' + p.title + "</div>" +
+          '<div class="s">' + p.type + " ｜ " + p.number + "</div>" +
+          "</div>" +
+          '<div class="arrow">' + p.year + "</div></div>";
+      }).join("")
+    : U.placeholder("专利信息待补充");
+
+  /* ===== 获奖精选 ===== */
+  document.getElementById("sec-awards-head").innerHTML =
+    U.secHead("获奖精选", "AWARDS HIGHLIGHT", "", "yellow");
+  document.getElementById("awards-list").innerHTML = TIDE_AWARDS_HIGHLIGHT.length
+    ? TIDE_AWARDS_HIGHLIGHT.map(function (a) {
+        return '<div class="rowitem"><div><div class="t">' + a.text + "</div></div>" +
+          '<div class="arrow">' + a.year + "</div></div>";
+      }).join("")
+    : U.placeholder("获奖信息待补充");
+
+  /* ===== 实验室作品 ===== */
+  document.getElementById("sec-works-head").innerHTML =
+    U.secHead("实验室作品", "LAB WORKS", "", "yellow");
+  document.getElementById("works-grid").innerHTML = TIDE_WORKS.length
+    ? TIDE_WORKS.map(function (w) {
+        return '<div class="card"><div class="body" style="padding:var(--sp-3)">' +
+          '<div class="title">' + w.titleZh + "</div>" +
+          '<div class="title-en">' + w.titleEn + "</div>" +
+          '<div class="desc">' + w.note + "</div>" +
+          (w.page ? '<div style="margin-top:var(--sp-2)"><a href="' + w.page + '" target="_blank" rel="noopener" ' +
+            'style="font-size:var(--fs-small);font-weight:700;border-bottom:1px solid var(--ink)">查看手册页 &rarr;</a></div>' : "") +
+          '<div class="under"></div></div></div>';
+      }).join("")
+    : U.placeholder("作品信息待补充");
+
+  /* ===== 实验室设备 ===== */
+  document.getElementById("sec-equip-head").innerHTML =
+    U.secHead("实验室设备", "EQUIPMENT", "", "yellow");
+  document.getElementById("equip-block").innerHTML =
+    '<div class="tag-row" style="display:flex;flex-wrap:wrap;gap:6px;margin:var(--sp-3) 0">' +
+      TIDE_EQUIPMENT.map(function (e) {
+        return '<span class="tag">' + e.zh + ' <span class="en" style="color:var(--gray)">' + e.en + "</span></span>";
+      }).join("") +
+    "</div>" +
+    '<figure class="equip-figure">' + U.img("assets/img/handbook/page-19.jpg", "实验室设备") +
+      "<figcaption>实验室设备（转录自项目手册）</figcaption></figure>";
+})();
+</script>
+</body>
+</html>

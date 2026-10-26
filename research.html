@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>研究 RESEARCH · TiDE Lab</title>
+<link rel="stylesheet" href="assets/css/tokens.css?v=20261026d">
+<link rel="stylesheet" href="assets/css/base.css?v=20261026d">
+<style>
+  /* 页面特有布局（仅用 var(--*) 令牌，方向强调色由数据 r.color 内联注入） */
+  .page-head { padding: var(--sp-5) 0 0; }
+  .page-head h1 { font-size: var(--fs-h1); font-weight: 900; line-height: 1.1; }
+  .page-head h1 .en { font-weight: 300; color: var(--ink-2); letter-spacing: .14em; margin-left: 10px; }
+  .page-head .lead { max-width: 860px; margin-top: var(--sp-3); }
+  .page-head .lead-en { color: var(--gray); font-size: var(--fs-small); margin-top: 6px; max-width: 860px; }
+  .toc { display: flex; flex-wrap: wrap; gap: 10px; margin-top: var(--sp-3); }
+  .toc a {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--line); padding: 6px 14px;
+    font-size: var(--fs-small); font-weight: 700;
+  }
+  .toc a:hover { border-color: var(--ink); }
+
+  .dir-sec { border-top: 3px solid var(--ink); margin-top: var(--sp-5); padding-top: var(--sp-3); }
+  .dir-head { display: flex; align-items: baseline; gap: var(--sp-2); }
+  .dir-num { font-family: var(--font-en); font-size: var(--fs-h2); }
+  .dir-head h2 { font-size: var(--fs-h1); font-weight: 900; line-height: 1.1; }
+  .dir-head h2 .en {
+    font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 300;
+    font-size: clamp(14px, 1.8vw, 22px); color: var(--ink-2);
+    letter-spacing: .16em; text-transform: uppercase; margin-left: 10px;
+  }
+  .dir-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--sp-4); margin-top: var(--sp-3); }
+  .dir-grid figure { margin: 0; }
+  .dir-grid figure img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+  .dir-grid figcaption { font-size: var(--fs-tiny); color: var(--gray); margin-top: 8px; }
+  .dir-summary { font-size: var(--fs-h3); font-weight: 700; line-height: 1.6; }
+  .dir-summary-en { color: var(--gray); font-size: var(--fs-small); margin-top: 6px; }
+  .dir-body { margin-top: var(--sp-2); }
+  .dir-body p { margin-bottom: 4px; }
+  .dir-body .p-en { color: var(--gray); font-size: var(--fs-small); margin-bottom: var(--sp-2); }
+  .dir-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--sp-2); }
+
+  .sub-grid { margin-top: var(--sp-4); }
+  .sub-card { border: 1px solid var(--line); padding: var(--sp-3); background: var(--bg); }
+  .sub-card .glyph { font-size: 56px; font-weight: 900; line-height: 1; font-family: var(--font-zh); }
+  .sub-card .sub-title { font-weight: 900; font-size: var(--fs-h3); margin-top: 10px; }
+  .sub-card .sub-title-en {
+    font-family: "Helvetica Neue", Arial, sans-serif; font-size: var(--fs-tiny);
+    letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); margin-top: 2px;
+  }
+  .sub-card .sub-blk { margin-top: var(--sp-2); }
+  .sub-card .sub-k {
+    font-size: var(--fs-tiny); letter-spacing: .16em; color: var(--gray);
+    text-transform: uppercase; border-left: 3px solid var(--line); padding-left: 8px;
+  }
+  .sub-card .sub-v { font-size: var(--fs-small); color: var(--ink-2); margin-top: 4px; }
+
+  .rel-projs { margin-top: var(--sp-4); }
+  .rel-projs > h3 {
+    font-size: var(--fs-h3); font-weight: 900;
+    border-bottom: 1px solid var(--ink); padding-bottom: 8px; margin-bottom: var(--sp-2);
+  }
+  .rel-projs > h3 .en { font-weight: 300; color: var(--ink-2); letter-spacing: .12em; margin-left: 8px; font-size: var(--fs-small); }
+
+  @media (max-width: 1080px) {
+    .dir-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body data-page="research">
+<div id="tide-nav"></div>
+
+<header class="wrap page-head">
+  <h1>研究 <span class="en">RESEARCH</span></h1>
+  <p class="lead" id="philo-zh"></p>
+  <p class="lead-en en" id="philo-en"></p>
+  <div class="toc" id="toc"></div>
+</header>
+
+<main class="wrap" id="dirs"></main>
+
+<div id="tide-footer"></div>
+
+<script src="data/site.js?v=20261026d"></script>
+<script src="data/research.js?v=20261026d"></script>
+<script src="data/projects.js?v=20261026d"></script>
+<script src="assets/js/ui.js?v=20261026d"></script>
+<script>
+(function () {
+  var U = TIDE_UI, S = TIDE_SITE;
+
+  /* 页面头导语 + 锚点目录 */
+  document.getElementById("philo-zh").textContent = S.philosophyZh;
+  document.getElementById("philo-en").textContent = S.philosophyEn;
+  document.getElementById("toc").innerHTML = TIDE_RESEARCH.map(function (r) {
+    return '<a href="#' + r.key + '"><span class="dot" style="background:' + r.color + '"></span>' +
+      r.num + ' ' + r.zh + '</a>';
+  }).join("");
+
+  /* 四大方向分节 */
+  document.getElementById("dirs").innerHTML = TIDE_RESEARCH.map(function (r) {
+    var html = '<section class="dir-sec" id="' + r.key + '" style="border-color:' + r.color + '">';
+
+    /* 编号 + 中英文名 */
+    html += '<div class="dir-head"><span class="dir-num" style="color:' + r.color + '">' + r.num + '</span>' +
+      '<h2>' + r.zh + ' <span class="en">' + r.en + '</span></h2></div>';
+
+    /* 图文区：配图（图注必填） + 简介/正文/关键词 */
+    html += '<div class="dir-grid"><figure>' + U.img(r.image, r.zh) +
+      '<figcaption>' + r.imageCaption + '</figcaption></figure><div>';
+
+    html += '<div class="dir-summary">' + r.summaryZh + '</div>' +
+      '<div class="dir-summary-en en">' + r.summaryEn + '</div>';
+
+    html += '<div class="dir-body">';
+    var n = Math.max(r.bodyZh.length, r.bodyEn.length);
+    for (var i = 0; i < n; i++) {
+      if (r.bodyZh[i]) html += '<p>' + r.bodyZh[i] + '</p>';
+      if (r.bodyEn[i]) html += '<p class="p-en en">' + r.bodyEn[i] + '</p>';
+    }
+    html += '</div>';
+
+    html += '<div class="dir-tags">' + r.keywords.map(function (k) {
+      return '<span class="tag">' + k + '</span>';
+    }).join("") + '</div>';
+
+    html += '</div></div>';
+
+    /* 营造社：衣食住行娱五大子方向 */
+    if (r.subDirections && r.subDirections.length) {
+      html += '<div class="sub-grid"><div class="grid c3">' + r.subDirections.map(function (s) {
+        return '<div class="sub-card" style="border-top:3px solid ' + r.color + '">' +
+          '<div class="glyph" style="color:' + r.color + '">' + s.glyph + '</div>' +
+          '<div class="sub-title">' + s.zh + '</div>' +
+          '<div class="sub-title-en">' + s.en + '</div>' +
+          '<div class="sub-blk"><div class="sub-k">场景 Scenario</div><div class="sub-v">' + s.scenarioZh + '</div></div>' +
+          '<div class="sub-blk"><div class="sub-k">意义 Significance</div><div class="sub-v">' + s.meaningZh + '</div></div>' +
+          '<div class="sub-blk"><div class="sub-k">前景 Prospect</div><div class="sub-v">' + s.prospectZh + '</div></div>' +
+          '</div>';
+      }).join("") + '</div></div>';
+    }
+
+    /* 相关项目：按 studio 字段匹配方向 key */
+    var projs = TIDE_PROJECTS.filter(function (p) { return p.studio === r.key; });
+    html += '<div class="rel-projs"><h3>相关项目 <span class="en">RELATED PROJECTS</span></h3>';
+    html += projs.length
+      ? '<div class="grid c3">' + projs.map(U.projectCard).join("") + '</div>'
+      : U.placeholder("该方向暂无关联项目");
+    html += '</div>';
+
+    return html + '</section>';
+  }).join("");
+})();
+</script>
+</body>
+</html>

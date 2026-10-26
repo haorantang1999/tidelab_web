@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>要闻详情 · TiDE Lab · 清华SIGS未来人居数字引擎实验室</title>
+<link rel="stylesheet" href="assets/css/tokens.css?v=20261026d">
+<link rel="stylesheet" href="assets/css/base.css?v=20261026d">
+<style>
+/* 要闻详情页特有布局（仅用 var(--*) 令牌） */
+.news-cover { margin: var(--sp-3) 0; }
+.news-cover img { width: 100%; max-height: 520px; object-fit: cover; }
+.news-cover figcaption { font-size: var(--fs-tiny); color: var(--gray); margin-top: 6px; }
+
+.news-body-txt { max-width: 860px; margin-top: var(--sp-3); }
+.news-body-txt p { margin-bottom: var(--sp-2); }
+.news-body-txt .p-en { color: var(--gray); font-size: var(--fs-small); }
+.news-body-txt .p-credit { font-size: var(--fs-tiny); color: var(--gray); margin-top: var(--sp-3); }
+.news-body-txt h3.nh {
+  font-size: var(--fs-h3); font-weight: 900;
+  border-bottom: 1px solid var(--ink); padding-bottom: 8px;
+  margin: var(--sp-4) 0 var(--sp-2);
+}
+.news-body-txt figure { margin: var(--sp-2) 0; }
+.news-body-txt figure img { width: 100%; }
+.news-body-txt figcaption { font-size: var(--fs-tiny); color: var(--gray); margin-top: 6px; }
+
+.news-pn { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3); margin-top: var(--sp-5); }
+.news-pn .pn-card { border: 1px solid var(--line); padding: var(--sp-2) var(--sp-3); display: block; transition: box-shadow .2s; }
+.news-pn .pn-card:hover { box-shadow: var(--shadow); }
+.news-pn .pn-k { font-size: var(--fs-tiny); letter-spacing: .14em; color: var(--gray); text-transform: uppercase; }
+.news-pn .pn-t { font-weight: 700; font-size: var(--fs-small); margin-top: 4px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.news-pn .pn-card.next { text-align: right; }
+
+.missing { padding: var(--sp-6) 0; }
+.missing .back { margin-top: var(--sp-3); }
+
+@media (max-width: 640px) {
+  .news-pn { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body data-page="news">
+<div id="tide-nav"></div>
+
+<div class="detail" id="detail-root">
+  <aside class="rail"><div class="vertical">TiDE LAB</div></aside>
+  <main class="detail-main" id="detail-main"></main>
+</div>
+
+<div id="tide-footer"></div>
+
+<script src="data/news.js?v=20261026d"></script>
+<script src="assets/js/ui.js?v=20261026d"></script>
+<script>
+(function () {
+  var U = TIDE_UI;
+  var root = document.getElementById("detail-main");
+  var all = (window.TIDE_NEWS || []).slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; });
+
+  /* 站点作用域：?site=aavs → AAVS 副站语境；默认按条目首个归属站 */
+  var scope = U.query("site") || "main";
+
+  function inScope(x, s) {
+    if (!x.sites || !x.sites.length) return s === "main";
+    return x.sites.indexOf(s) >= 0;
+  }
+  function backHome() { return scope === "aavs" ? "aavs.html#news" : "index.html#news"; }
+  function crumbsBase(label) {
+    return scope === "aavs"
+      ? [{ label: "首页", href: "index.html" }, { label: "AAVS", href: "aavs.html" }, { label: "要闻", href: "aavs.html#news" }, { label: label }]
+      : [{ label: "首页", href: "index.html" }, { label: "要闻", href: "index.html#news" }, { label: label }];
+  }
+  function detailHref(x) {
+    return "news.html?id=" + x.id + (scope === "aavs" ? "&site=aavs" : "");
+  }
+
+  /* 深链：id 缺失或不存在 → 占位 + 返回链接 */
+  var id = U.query("id");
+  var n = null;
+  for (var i = 0; i < all.length; i++) if (all[i].id === id) { n = all[i]; break; }
+
+  if (!n) {
+    root.innerHTML = U.crumbs(crumbsBase("未找到")) +
+      '<div class="missing">' + U.placeholder("要闻不存在") +
+      '<div class="back"><a class="biglink" href="' + backHome() + '">&larr; 返回要闻 NEWS</a></div></div>';
+    return;
+  }
+
+  /* 未显式指定 site 时，按条目自身归属决定语境 */
+  if (!U.query("site") && n.sites && n.sites.length && n.sites.indexOf("main") < 0) scope = n.sites[0];
+
+  /* 作用域内排序列表（上一条/下一条按时间线） */
+  var items = all.filter(function (x) { return inScope(x, scope); });
+  var idx = -1;
+  for (var j = 0; j < items.length; j++) if (items[j].id === n.id) { idx = j; break; }
+
+  document.title = n.title + " · TiDE Lab";
+
+  var html = "";
+
+  /* 面包屑 */
+  html += U.crumbs(crumbsBase(n.title));
+
+  /* 标签 + 日期 */
+  html += '<div class="detail-label"><span class="k">' + (n.tag || "要闻") + ' <span class="en">NEWS</span></span>' +
+    '<span class="i">' + n.date + "</span></div>";
+
+  /* 大标题 */
+  html += '<h1 class="detail-title">' + n.title + "</h1>";
+
+  /* 元信息表 */
+  html += '<div class="meta-table">' +
+    '<div><div class="k">发布日期 DATE</div><div class="v">' + n.date + '</div></div>' +
+    '<div><div class="k">分类 CATEGORY</div><div class="v">' + (n.tag || "要闻") + '</div></div>' +
+    '<div><div class="k">来源 SOURCE</div><div class="v">' + (n.source || "TiDE Lab") + '</div></div>' +
+    '<div><div class="k">原文 LINK</div><div class="v">' +
+    (n.sourceUrl ? '<a href="' + n.sourceUrl + '" target="_blank" rel="noopener" style="color:var(--tide-purple)">微信公众号原文 &nearr;</a>' : '—') +
+    '</div></div></div>';
+
+  /* 摘要 */
+  if (n.summary) html += '<div class="detail-lead"><p>' + n.summary + "</p></div>";
+
+  /* 封面图（图注必备） */
+  if (n.cover) {
+    html += '<figure class="news-cover">' + U.img(n.cover, n.title) +
+      "<figcaption>" + (n.coverCaption || n.title) + "</figcaption></figure>";
+  }
+
+  /* 正文块 */
+  if (n.body && n.body.length) {
+    html += '<div class="news-body-txt">' + n.body.map(function (b) {
+      if (b.t === "h3") return '<h3 class="nh">' + b.text + "</h3>";
+      if (b.t === "en") return '<p class="p-en">' + b.text + "</p>";
+      if (b.t === "credit") return '<p class="p-credit">' + b.text + "</p>";
+      if (b.t === "img") return "<figure>" + U.img(b.src, b.caption || n.title) +
+        (b.caption ? "<figcaption>" + b.caption + "</figcaption>" : "") + "</figure>";
+      return "<p>" + b.text + "</p>";
+    }).join("") + "</div>";
+  } else {
+    html += '<div style="margin-top:var(--sp-3)"><div class="notice">正文迁移整理中，可先阅读微信公众号原文。Full text is being migrated; please read the original on WeChat.</div>' +
+      (n.sourceUrl ? '<div style="margin-top:var(--sp-3)"><a class="btn" href="' + n.sourceUrl + '" target="_blank" rel="noopener">阅读原文 READ ORIGINAL &nearr;</a></div>' : '') +
+      "</div>";
+  }
+
+  /* 上一条 / 下一条（作用域内，按时间线） */
+  var prev = idx >= 0 ? items[idx + 1] : null; /* 更早 */
+  var next = idx >= 0 ? items[idx - 1] : null; /* 更新 */
+  if (prev || next) {
+    html += '<div class="news-pn">';
+    html += prev
+      ? '<a class="pn-card" href="' + detailHref(prev) + '"><div class="pn-k">&larr; 上一条 PREV · ' + prev.date + '</div><div class="pn-t">' + prev.title + '</div></a>'
+      : "<span></span>";
+    html += next
+      ? '<a class="pn-card next" href="' + detailHref(next) + '"><div class="pn-k">下一条 NEXT · ' + next.date + ' &rarr;</div><div class="pn-t">' + next.title + '</div></a>'
+      : "<span></span>";
+    html += "</div>";
+  }
+
+  root.innerHTML = html;
+})();
+</script>
+</body>
+</html>

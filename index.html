@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TiDE Lab · 清华SIGS未来人居数字引擎实验室</title>
+<link rel="stylesheet" href="assets/css/tokens.css?v=20261026d">
+<link rel="stylesheet" href="assets/css/base.css?v=20261026d">
+<link rel="stylesheet" href="assets/css/news-carousel.css?v=20261026d">
+<style>
+/* 首页特有：放大版 AAVS 跳转按钮（TiDE Lab → AAVS 双向强入口） */
+.hero-more {
+  font-size: 22px !important; letter-spacing: .12em;
+  background: var(--tide-orange); color: var(--bg) !important;
+  padding: 16px 34px; font-weight: 900;
+  box-shadow: var(--shadow);
+}
+.hero-more:hover { background: var(--tide-purple); color: var(--bg) !important; }
+.leader-badge {
+  display: inline-block; font-size: var(--fs-tiny); font-weight: 700;
+  color: var(--tide-purple); border: 1px solid var(--tide-purple);
+  padding: 2px 10px; margin-top: 6px; letter-spacing: .04em;
+}
+/* 创始人栏为半幅大卡：资料未补全时，占位字放大，避免出现大片空白像「坏图」 */
+#founders-grid .photo-empty { font-size: 88px; color: var(--gray-2); }
+#founders-grid .person .focus { font-size: var(--fs-small); }
+/* 要闻轮播样式：assets/css/news-carousel.css（与 AAVS 副站共用） */
+
+/* ===== 首页开源项目轮播（页面级，op- 前缀，仅用令牌，无渐变/圆角/特效） ===== */
+.op-note { margin-top: var(--sp-2); font-size: var(--fs-tiny); color: var(--gray); }
+.op-carousel { position: relative; }
+.op-viewport { overflow: hidden; }
+.op-track { display: flex; flex-wrap: nowrap; transition: transform .5s ease; will-change: transform; }
+.op-page { flex: 0 0 100%; min-width: 100%; display: grid; gap: var(--sp-3); padding: 2px; }
+.op-page.n3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.op-page.n2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.op-page.n1 { grid-template-columns: minmax(0, 1fr); }
+
+.op-card {
+  display: block; border: 1px solid var(--line); background: var(--bg);
+  padding: var(--sp-3); transition: border-color .2s, box-shadow .2s;
+}
+.op-card:hover { border-color: var(--tide-purple); box-shadow: var(--shadow); }
+.op-card .op-title { font-weight: 900; font-size: var(--fs-h3); line-height: 1.45; word-break: break-word; }
+.op-card .op-sub {
+  font-family: var(--font-en); font-size: var(--fs-tiny); letter-spacing: .1em;
+  text-transform: uppercase; color: var(--gray); margin-top: 6px;
+}
+.op-card .op-desc { font-size: var(--fs-small); color: var(--ink-2); margin-top: var(--sp-2); }
+.op-card .op-desc-en { font-size: var(--fs-tiny); color: var(--gray); margin-top: 6px; line-height: 1.6; }
+.op-card .op-meta {
+  margin-top: var(--sp-2); padding-top: var(--sp-1); border-top: 1px solid var(--line);
+  display: flex; align-items: center; gap: var(--sp-2);
+  font-family: var(--font-mono); font-size: var(--fs-tiny); color: var(--gray);
+}
+
+.op-ctrl { display: flex; align-items: center; justify-content: center; gap: var(--sp-2); margin-top: var(--sp-3); }
+.op-arrow {
+  width: 34px; height: 34px; padding: 0; border: 1px solid var(--line); background: var(--bg);
+  color: var(--ink); cursor: pointer; font-family: var(--font-en); font-size: var(--fs-body);
+  line-height: 1; display: flex; align-items: center; justify-content: center;
+}
+.op-arrow:hover { border-color: var(--tide-purple); color: var(--tide-purple); }
+.op-dots { display: flex; align-items: center; gap: var(--sp-1); }
+.op-dot {
+  width: 9px; height: 9px; padding: 0; border: 1px solid var(--gray-2);
+  background: var(--bg); border-radius: 50%; cursor: pointer;
+}
+.op-dot.on { background: var(--tide-purple); border-color: var(--tide-purple); }
+</style>
+</head>
+<body data-page="home">
+<div id="tide-nav"></div>
+
+<!-- ===== 英雄区：巨型字 + Mission + 主图（参考 01-tide-homepage.png） ===== -->
+<header class="hero wrap-wide">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-side-note">Tsinghua SIGS<br/>iFHHs Digital Engine<br/>Laboratory</div>
+      <div class="mega">TiDE<br/><span class="accent">LAB</span></div>
+      <div class="hero-dots">
+        <span class="dot purple"></span><span class="dot teal"></span><span class="dot yellow"></span><span class="dot lime"></span><span class="dot red"></span>
+      </div>
+      <div class="hero-mission">
+        <h1 id="mission-zh"></h1>
+        <div class="en" id="mission-en"></div>
+      </div>
+    </div>
+    <div class="hero-figure">
+      <figure>
+        <span id="hero-img"></span>
+        <figcaption id="hero-cap"></figcaption>
+      </figure>
+      <a class="hero-more" href="aavs.html" id="hero-aavs"></a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ===== 要闻（自动轮播） ===== -->
+  <section id="news">
+    <div id="sec-news-head"></div>
+    <div id="news-carousel-root"></div>
+  </section>
+
+  <!-- ===== 研究方向 ===== -->
+  <div id="sec-research-head"></div>
+  <div class="grid c4" id="research-grid"></div>
+
+  <!-- ===== 项目 ===== -->
+  <div id="sec-projects-head"></div>
+  <div class="grid c3" id="projects-grid"></div>
+  <div style="margin-top:var(--sp-3)"><a class="biglink" href="projects.html">全部项目 ALL PROJECTS &rarr;</a></div>
+
+  <!-- ===== 成果 ===== -->
+  <div id="sec-outputs-head"></div>
+  <div class="grid c3" id="outputs-grid"></div>
+  <div style="margin-top:var(--sp-3)"><a class="biglink" href="outputs.html">全部成果 ALL OUTPUTS &rarr;</a></div>
+
+  <!-- ===== 创始人（两位负责人单拎出来，独立一栏） ===== -->
+  <div id="sec-founders-head"></div>
+  <div class="grid c2" id="founders-grid"></div>
+
+  <!-- ===== 成员 ===== -->
+  <div id="sec-people-head"></div>
+  <div class="grid c4" id="people-grid"></div>
+  <div style="margin-top:var(--sp-3)"><a class="biglink" href="people.html">全部成员 ALL PEOPLE &rarr;</a></div>
+
+  <!-- ===== 资源外链区 ===== -->
+  <div id="sec-resources-head"></div>
+  <div class="grid c3" id="resources-grid"></div>
+  <div class="op-note" id="resources-note"></div>
+
+  <!-- ===== 开源项目（分页自动轮播） ===== -->
+  <div id="sec-open-projects-head"></div>
+  <div id="open-projects-root"></div>
+
+</main>
+
+<div id="tide-footer"></div>
+
+<script src="data/site.js?v=20261026d"></script>
+<script src="data/news.js?v=20261026d"></script>
+<script src="data/research.js?v=20261026d"></script>
+<script src="data/projects.js?v=20261026d"></script>
+<script src="data/members.js?v=20261026d"></script>
+<script src="data/outputs.js?v=20261026d"></script>
+<script src="assets/js/ui.js?v=20261026d"></script>
+<script src="assets/js/news-carousel.js?v=20261026d"></script>
+<script>
+(function () {
+  var U = TIDE_UI, S = TIDE_SITE;
+
+  /* 英雄区 */
+  document.getElementById("mission-zh").textContent = S.missionZh;
+  document.getElementById("mission-en").textContent = S.missionEn;
+  document.getElementById("hero-img").innerHTML = U.img(S.heroImage, S.labNameZh);
+  document.getElementById("hero-cap").textContent = S.heroImageCaption;
+  document.getElementById("hero-aavs").textContent = "前往 AAVS 2026 ›››";
+
+  /* 要闻（自动轮播：自动播放 · 无缝循环 · 悬停暂停 · 触摸滑动） */
+  document.getElementById("sec-news-head").innerHTML =
+    U.secHead("要闻", "NEWS", "Lab Activities &amp;<br/>Latest Progress", "red");
+  TIDE_NEWS_CAROUSEL.mount(
+    document.getElementById("news-carousel-root"),
+    (window.TIDE_NEWS || []).filter(function (n) { return !n.sites || n.sites.indexOf("main") >= 0; })
+      .sort(function (a, b) { return a.date < b.date ? 1 : -1; }),
+    U, {}
+  );
+
+  /* 研究方向（四大板块） */
+  document.getElementById("sec-research-head").innerHTML =
+    U.secHead("研究", "RESEARCH", "From Data to<br/>Livable Futures", "purple");
+  document.getElementById("research-grid").innerHTML = TIDE_RESEARCH.map(function (r) {
+    return '<a class="card" href="research.html#' + r.key + '">' +
+      '<div class="thumb"><span class="num">' + r.num + '</span>' + U.img(r.image, r.zh) + '</div>' +
+      '<div class="body"><div class="title">' + r.zh + '</div>' +
+      '<div class="title-en">' + r.en + '</div>' +
+      '<div class="desc">' + r.summaryZh + '</div><div class="under"></div></div></a>';
+  }).join("");
+
+  /* 项目（取前3个） */
+  document.getElementById("sec-projects-head").innerHTML =
+    U.secHead("项目", "PROJECTS", "Ideas into<br/>Real-World Impact", "teal");
+  document.getElementById("projects-grid").innerHTML =
+    TIDE_PROJECTS.slice(0, 3).map(U.projectCard).join("");
+
+  /* 成果（最新论文3条 + 链接） */
+  document.getElementById("sec-outputs-head").innerHTML =
+    U.secHead("成果", "OUTPUTS", "Knowledge for<br/>a More Open Tomorrow", "yellow");
+  var pubs = TIDE_PUBLICATIONS.slice().sort(function (a, b) { return b.year - a.year; }).slice(0, 3);
+  document.getElementById("outputs-grid").innerHTML = pubs.map(function (p) {
+    return '<a class="card" href="outputs.html"><div class="body" style="padding:var(--sp-3)">' +
+      '<div class="title-en">' + p.venue + '</div>' +
+      '<div class="title" style="margin-top:8px">' + p.title + '</div>' +
+      '<div class="desc">' + p.authors + ' · ' + p.year + '</div>' +
+      '<div class="under"></div></div></a>';
+  }).join("");
+
+  /* 创始人（两位负责人单拎出来，独立成栏，位于「成果」与「成员」之间） */
+  var leaders = window.TIDE_LEADERS || [TIDE_ADVISOR];
+  function leaderCard(L) {
+    var photo = L.photo ? '<div class="photo">' + U.img(L.photo, L.nameZh) + '</div>'
+      : '<div class="photo"><div class="photo-empty">' + (L.nameZh || "TiDE").charAt(0) + '</div></div>';
+    return '<a class="person" href="people.html#advisor">' + photo +
+      '<div class="body"><div class="name">' + L.nameZh + '</div>' +
+      '<div class="name-en">' + (L.nameEn || '') + '</div>' +
+      '<span class="leader-badge">' + (L.roleLabelZh || '导师 PI') + '</span>' +
+      (L.focusZh ? '<div class="focus">' + L.focusZh + '</div>' : '') +
+      '</div></a>';
+  }
+  document.getElementById("sec-founders-head").innerHTML =
+    U.secHead("创始人", "FOUNDERS", "Lab Leadership<br/>&amp; Direction", "purple");
+  document.getElementById("founders-grid").innerHTML = leaders.map(leaderCard).join("");
+
+  /* 成员（不含负责人；编外合作不进入首页精选；优先展示有研究方向的成员，补齐 4 张） */
+  document.getElementById("sec-people-head").innerHTML =
+    U.secHead("成员", "PEOPLE", "Space · Data<br/>Materials · Tomorrow", "green");
+  var want = 4;
+  var featuredIds = ["tang-haoran", "zhao-tianle"];
+  var featured = featuredIds.map(function (id) {
+    return TIDE_MEMBERS.filter(function (m) { return m.id === id; })[0];
+  }).filter(Boolean);
+  if (featured.length < want) {
+    var pool = TIDE_MEMBERS.filter(function (m) {
+      return m.photo && m.group !== "collaborator" && featuredIds.indexOf(m.id) < 0;
+    });
+    /* 有研究方向的排前面，避免首页出现「简介待补充」的空卡 */
+    pool.sort(function (a, b) { return (b.focusZh ? 1 : 0) - (a.focusZh ? 1 : 0); });
+    featured = featured.concat(pool.slice(0, want - featured.length));
+  }
+  document.getElementById("people-grid").innerHTML = featured.map(U.personCard).join("");
+
+  /* 资源外链区 */
+  document.getElementById("sec-resources-head").innerHTML =
+    U.secHead("开放资源", "RESOURCES", "Links &amp;<br/>Open Assets", "lime");
+  document.getElementById("resources-grid").innerHTML = S.resources.map(function (r) {
+    var inner = '<div class="body" style="padding:var(--sp-3)"><div class="title">' + r.name + '</div>' +
+      '<div class="desc">' + r.note + '</div><div class="under"></div></div>';
+    return r.url
+      ? '<a class="card" href="' + r.url + '" target="_blank" rel="noopener">' + inner + '</a>'
+      : '<div class="card" style="opacity:.55" title="链接待补充">' + inner + '</div>';
+  }).join("");
+
+  /* 资源区脚注：星标快照日期（数据驱动，不写死） */
+  var asOf = S.openProjectsAsOf || "";
+  document.getElementById("resources-note").textContent =
+    asOf ? "开源项目星标数据截至 " + asOf : "";
+})();
+
+/* ===== 开源项目：分页自动轮播（页面级原生实现，不改动 news-carousel） ===== */
+(function () {
+  var U = TIDE_UI, S = TIDE_SITE || {};
+  var head = document.getElementById("sec-open-projects-head");
+  var root = document.getElementById("open-projects-root");
+  if (!head || !root) return;
+
+  head.innerHTML = U.secHead("开源项目", "OPEN-SOURCE PROJECTS", "Code &amp;<br/>Tools in the Open", "lime");
+
+  var list = (S.openProjects || []).slice();
+  if (!list.length) { root.innerHTML = U.placeholder("开源项目整理中"); return; }
+
+  var AUTO_MS = 6500;   /* 自动播放间隔 */
+  var TRANS_MS = 500;   /* 与 CSS .op-track transition 时长一致 */
+  var SWIPE_MIN = 60;   /* 触摸滑动最小阈值(px) */
+  var SWIPE_RATIO = 0.12; /* 触摸滑动阈值 = 视口宽度 * 该比例 */
+
+  var perPage = 0, pages = 0, index = 0, gen = 0;
+  var timer = null, paused = false, animating = false, current = null;
+
+  /* 每页卡片数：≥1080 → 3；≥640 → 2；<640 → 1（与 base.css 断点一致） */
+  function perPageFor(w) { return w >= 1080 ? 3 : (w >= 640 ? 2 : 1); }
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function cardHtml(p) {
+    var sub = esc(p.author || "") + (p.lang ? " · " + esc(p.lang) : "");
+    var meta = "★ " + esc(p.stars == null ? 0 : p.stars) + (p.year ? "　" + esc(p.year) : "");
+    return '<a class="op-card"' + (p.url ? ' href="' + esc(p.url) + '" target="_blank" rel="noopener"' : "") + '>' +
+      '<div class="op-title">' + esc(p.name) + '</div>' +
+      '<div class="op-sub">' + sub + '</div>' +
+      '<div class="op-desc">' + esc(p.descZh) + '</div>' +
+      (p.descEn ? '<div class="op-desc-en en">' + esc(p.descEn) + '</div>' : "") +
+      '<div class="op-meta">' + meta + '</div>' +
+      '</a>';
+  }
+
+  function chunk(arr, n) {
+    var out = [], i;
+    for (i = 0; i < arr.length; i += n) out.push(arr.slice(i, i + n));
+    return out;
+  }
+
+  /* 整页位移：translateX 百分比（-i * 100%），animate=false 时静默落位 */
+  function setTransform(i, animate) {
+    if (!current) return;
+    var track = current.track;
+    if (animate === false) {
+      track.style.transition = "none";
+      track.style.transform = "translateX(" + (-i * 100) + "%)";
+      void track.offsetWidth; /* 强制提交，使下一步动画从新位置开始 */
+      track.style.transition = "";
+    } else {
+      track.style.transition = "";
+      track.style.transform = "translateX(" + (-i * 100) + "%)";
+    }
+  }
+
+  function syncDots() {
+    if (!current || !current.dots) return;
+    var cur = ((index % pages) + pages) % pages, ds = current.dots.children, k;
+    for (k = 0; k < ds.length; k++) {
+      ds[k].classList[k === cur ? "add" : "remove"]("on");
+      ds[k].setAttribute("aria-current", k === cur ? "true" : "false");
+    }
+  }
+
+  function stopAuto() { if (timer) { window.clearInterval(timer); timer = null; } }
+  function startAuto() {
+    stopAuto();
+    if (paused || pages <= 1) return;
+    timer = window.setInterval(next, AUTO_MS);
+  }
+  function pause() { paused = true; stopAuto(); }
+  function resume() { paused = false; startAuto(); }
+
+  /* 释放动画锁（带代际校验，避免重建后旧回调误触发） */
+  function release(g) {
+    window.setTimeout(function () { if (g === gen) animating = false; }, TRANS_MS + 40);
+  }
+
+  function next() {
+    if (pages <= 1 || animating) return;
+    var g = gen;
+    animating = true;
+    index = index + 1;
+    setTransform(index, true);
+    syncDots();
+    if (index >= pages) {
+      /* 已滑到末尾克隆页（内容与第 1 页一致）→ 静默回跳，视觉无跳变 */
+      window.setTimeout(function () {
+        if (g !== gen) return;
+        setTransform(0, false);
+        index = 0;
+        syncDots();
+        animating = false;
+      }, TRANS_MS + 20);
+    } else {
+      release(g);
+    }
+  }
+
+  function prev() {
+    if (pages <= 1 || animating) return;
+    var g = gen;
+    if (index === 0) {
+      /* 先静默落到末尾克隆位（与第 1 页同画面），再向左滑出上一页 */
+      setTransform(pages, false);
+      index = pages;
+    }
+    animating = true;
+    index = index - 1;
+    setTransform(index, true);
+    syncDots();
+    release(g);
+  }
+
+  function goTo(i) {
+    if (pages <= 1 || animating) return;
+    var cur = ((index % pages) + pages) % pages;
+    if (i === cur) return;
+    animating = true;
+    index = i;
+    setTransform(index, true);
+    syncDots();
+    release(gen);
+  }
+
+  function onTouchStart(e) {
+    if (!e.touches || e.touches.length !== 1) return;
+    current.sx = e.touches[0].clientX;
+    current.sy = e.touches[0].clientY;
+    current.dx = 0;
+  }
+  function onTouchMove(e) {
+    if (!e.touches || e.touches.length !== 1 || current.sx == null) return;
+    current.dx = e.touches[0].clientX - current.sx;
+    current.dy = e.touches[0].clientY - current.sy;
+  }
+  function onTouchEnd() {
+    if (current.sx == null) return;
+    var dx = current.dx || 0, dy = current.dy || 0;
+    current.sx = null;
+    if (Math.abs(dx) < Math.abs(dy)) return; /* 纵向滚动不拦截 */
+    var threshold = Math.max(SWIPE_MIN, window.innerWidth * SWIPE_RATIO);
+    if (dx <= -threshold) next();
+    else if (dx >= threshold) prev();
+  }
+
+  /* 悬停 / 焦点 / 标签页可见性 暂停与恢复 */
+  function bindCarousel(c) {
+    c.on("mouseenter", pause);
+    c.on("mouseleave", resume);
+    c.on("focusin", pause);
+    c.on("focusout", function (e) {
+      try {
+        if (!c.el.contains(e.relatedTarget)) resume();
+      } catch (err) { resume(); }
+    });
+    c.viewport.addEventListener("touchstart", onTouchStart, { passive: true });
+    c.viewport.addEventListener("touchmove", onTouchMove, { passive: true });
+    c.viewport.addEventListener("touchend", onTouchEnd, { passive: true });
+  }
+
+  /* 重建：按窗口宽度重算每页数量与页数，回到第 1 页 */
+  function build() {
+    gen++;
+    stopAuto();
+    animating = false;
+    index = 0;
+    perPage = perPageFor(window.innerWidth);
+    var groups = chunk(list, perPage);
+    pages = groups.length;
+
+    var multi = pages > 1;
+    var pagesHtml = groups.map(function (g) {
+      return '<div class="op-page n' + perPage + '">' + g.map(cardHtml).join("") + '</div>';
+    }).join("");
+    if (multi) {
+      /* 末尾追加第 1 页克隆，实现向前无缝循环 */
+      pagesHtml += '<div class="op-page n' + perPage + '" aria-hidden="true">' + groups[0].map(cardHtml).join("") + '</div>';
+    }
+
+    var ctrl = multi
+      ? '<div class="op-ctrl">' +
+        '<button type="button" class="op-arrow prev" aria-label="上一页">‹</button>' +
+        '<div class="op-dots" role="group" aria-label="开源项目分页"></div>' +
+        '<button type="button" class="op-arrow next" aria-label="下一页">›</button>' +
+        '</div>'
+      : "";
+
+    root.innerHTML =
+      '<div class="op-carousel" role="group" aria-roledescription="carousel" aria-label="开源项目">' +
+      '<div class="op-viewport"><div class="op-track">' + pagesHtml + '</div></div>' + ctrl +
+      '</div>';
+
+    var el = root.firstChild;
+    var track = el.querySelector(".op-track");
+    var viewport = el.querySelector(".op-viewport");
+    var dots = el.querySelector(".op-dots");
+    var c = {
+      el: el, track: track, viewport: viewport, dots: dots, sx: null, dx: 0, dy: 0,
+      on: function (type, fn) { el.addEventListener(type, fn); }
+    };
+    current = c;
+
+    if (multi) {
+      var i;
+      for (i = 0; i < pages; i++) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "op-dot";
+        b.setAttribute("aria-label", "第 " + (i + 1) + " 页");
+        b.addEventListener("click", (function (k) {
+          return function () { goTo(k); };
+        })(i));
+        dots.appendChild(b);
+      }
+      var prevBtn = el.querySelector(".op-arrow.prev");
+      var nextBtn = el.querySelector(".op-arrow.next");
+      prevBtn.addEventListener("click", prev);
+      nextBtn.addEventListener("click", next);
+      c.el.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowLeft") prev();
+        else if (e.key === "ArrowRight") next();
+      });
+    }
+
+    bindCarousel(c);
+    setTransform(0, false);
+    syncDots();
+    if (!document.hidden) startAuto();
+  }
+
+  /* 可见性变化 */
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) stopAuto();
+    else if (!paused) startAuto();
+  });
+
+  /* 窗口尺寸变化：150ms 防抖，断点对应的每页数量变化时重建 */
+  var rTimer = null;
+  window.addEventListener("resize", function () {
+    if (rTimer) window.clearTimeout(rTimer);
+    rTimer = window.setTimeout(function () {
+      if (perPageFor(window.innerWidth) !== perPage) build();
+    }, 150);
+  });
+
+  build();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AAVS · TiDE Lab</title>
+<link rel="stylesheet" href="assets/css/tokens.css?v=20261026d">
+<link rel="stylesheet" href="assets/css/base.css?v=20261026d">
+<link rel="stylesheet" href="assets/css/news-carousel.css?v=20261026d">
+<style>
+  /* 页面特有布局（仅用 var(--*) 令牌；品牌橙由 base.css .aavs-band 提供） */
+  .aavs-band .mega { color: inherit; }
+  .aavs-band .edition {
+    font-family: var(--font-en); font-weight: 900; font-size: var(--fs-h2);
+    letter-spacing: .12em; margin-top: var(--sp-3); text-transform: uppercase;
+  }
+  .aavs-band .theme { font-size: clamp(20px, 2.6vw, 32px); font-weight: 900; margin-top: var(--sp-2); }
+  .aavs-band .theme-en {
+    font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 300;
+    letter-spacing: .18em; text-transform: uppercase; opacity: .9; margin-top: 4px;
+  }
+  .aavs-band .dates { margin-top: var(--sp-3); font-weight: 700; font-size: var(--fs-h3); }
+  .aavs-band .dates-en { font-size: var(--fs-small); opacity: .85; letter-spacing: .1em; }
+
+  .aavs-lead { max-width: 860px; }
+  .aavs-lead .p-en { color: var(--gray); font-size: var(--fs-small); margin-top: 6px; }
+  .aavs-meta { font-size: var(--fs-small); color: var(--ink-2); margin-top: var(--sp-2); }
+
+  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-3); margin-top: var(--sp-3); }
+  .stat-cell { border: 1px solid var(--line); padding: var(--sp-2) var(--sp-3); background: var(--bg); }
+  .stat-cell .n { font-family: var(--font-en); font-weight: 900; font-size: var(--fs-h1); line-height: 1; }
+  .stat-cell .l { font-size: var(--fs-small); font-weight: 700; margin-top: 6px; }
+  .stat-cell .l-en { font-size: var(--fs-tiny); color: var(--gray); letter-spacing: .1em; text-transform: uppercase; }
+
+  .quote-box { border-left: 4px solid var(--tide-orange); padding: var(--sp-2) var(--sp-3); background: var(--bg-soft); }
+  .quote-box .q { font-size: var(--fs-h3); font-weight: 700; line-height: 1.7; }
+  .quote-box .by { font-size: var(--fs-small); color: var(--gray); margin-top: 6px; }
+
+  .phase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-3); }
+  .phase-card { border: 1px solid var(--line); background: var(--bg); }
+  .phase-card .ph-head {
+    border-bottom: 1px solid var(--line); padding: var(--sp-2) var(--sp-3);
+    font-family: var(--font-en); font-weight: 900; letter-spacing: .1em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .phase-card .ph-body { padding: var(--sp-2) var(--sp-3); }
+  .phase-card .ph-title { font-weight: 900; font-size: var(--fs-h3); }
+  .phase-card .ph-title-en { font-size: var(--fs-tiny); color: var(--ink-2); letter-spacing: .1em; text-transform: uppercase; margin-top: 2px; }
+  .phase-card .ph-dates { font-weight: 700; margin-top: 8px; color: var(--tide-orange); }
+  .phase-card .ph-dates-en { font-size: var(--fs-tiny); color: var(--gray); letter-spacing: .08em; }
+  .phase-card .ph-desc { font-size: var(--fs-small); color: var(--ink-2); margin-top: 8px; line-height: 1.7; }
+
+  .unit-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-3); }
+  .unit-card { border: 1px solid var(--line); background: var(--bg); padding: var(--sp-3); }
+  .unit-card .u-glyph { font-size: 48px; font-weight: 900; line-height: 1; color: var(--tide-orange); font-family: var(--font-zh); }
+  .unit-card .u-key { font-weight: 900; font-size: var(--fs-h3); margin-top: 8px; }
+  .unit-card .u-key .en { font-weight: 300; color: var(--ink-2); letter-spacing: .12em; margin-left: 8px; font-size: var(--fs-small); text-transform: uppercase; }
+  .unit-card .u-title { font-size: var(--fs-small); color: var(--gray); margin-top: 2px; }
+  .unit-card .u-brief { font-size: var(--fs-small); color: var(--ink-2); line-height: 1.8; margin-top: var(--sp-2); }
+  .unit-card .u-k { font-size: var(--fs-tiny); letter-spacing: .16em; color: var(--gray); text-transform: uppercase; border-left: 3px solid var(--line); padding-left: 8px; margin-top: var(--sp-2); }
+  .unit-card .u-v { font-size: var(--fs-small); color: var(--ink-2); margin-top: 4px; line-height: 1.7; }
+
+  .tutor-group { margin-top: var(--sp-3); }
+  .tutor-group > h4 { font-size: var(--fs-h3); font-weight: 900; border-bottom: 1px solid var(--ink); padding-bottom: 8px; }
+  .tutor-group > h4 .en { font-weight: 300; color: var(--ink-2); letter-spacing: .12em; margin-left: 8px; font-size: var(--fs-small); text-transform: uppercase; }
+  .tutor-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-3); margin-top: var(--sp-2); }
+  .tutor-card { border: 1px solid var(--line); background: var(--bg); padding: var(--sp-2) var(--sp-3); }
+  .tutor-card .t-name { font-weight: 900; font-size: var(--fs-h3); }
+  .tutor-card .t-name .en { font-weight: 400; color: var(--gray); font-size: var(--fs-small); margin-left: 6px; }
+  .tutor-card .t-title { font-size: var(--fs-small); color: var(--ink-2); margin-top: 6px; line-height: 1.7; }
+
+  .outcome-list { margin: 0; padding-left: 20px; max-width: 860px; }
+  .outcome-list li { line-height: 2; }
+
+  .info-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--sp-4); align-items: start; }
+  .info-grid.no-map { grid-template-columns: 1fr; }
+  .info-grid figure { margin: 0; }
+  .info-grid figure img { width: 100%; }
+  .info-grid figcaption, .sched-fig figcaption { font-size: var(--fs-tiny); color: var(--gray); margin-top: 8px; }
+  .info-blk { margin-top: var(--sp-2); }
+  .info-blk .k { font-size: var(--fs-tiny); letter-spacing: .16em; color: var(--gray); text-transform: uppercase; border-left: 3px solid var(--line); padding-left: 8px; }
+  .info-blk .v { font-size: var(--fs-small); color: var(--ink-2); margin-top: 4px; line-height: 1.8; }
+  .sched-fig { margin: var(--sp-3) 0 0; }
+  .sched-fig img { width: 100%; border: 1px solid var(--line); }
+
+  .apply-zone { text-align: center; padding: var(--sp-5) 0; border-top: 1px solid var(--line); }
+  .back-link { text-align: center; margin: var(--sp-5) 0 var(--sp-4); }
+  .powered-by {
+    display: inline-block; background: var(--tide-purple); color: var(--bg);
+    font-weight: 900; font-size: var(--fs-h2); letter-spacing: .08em;
+    padding: var(--sp-3) var(--sp-5); border-radius: var(--radius);
+    transition: background .18s ease, transform .18s ease, box-shadow .18s ease;
+  }
+  .powered-by:hover { background: var(--tide-orange); transform: translateY(-3px); box-shadow: var(--shadow); }
+
+  /* AAVS 要闻轮播：主题色覆盖为品牌橙 */
+  #aavs-news-root .news-carousel { --news-accent: var(--tide-orange); }
+
+  @media (max-width: 1080px) {
+    .phase-grid, .tutor-grid, .unit-grid, .stat-row { grid-template-columns: 1fr; }
+    .info-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body data-page="aavs">
+<div id="tide-nav"></div>
+
+<!-- ===== AAVS 品牌头图区（橙） ===== -->
+<header class="aavs-band">
+  <div class="inner">
+    <div class="mega">AAVS</div>
+    <div class="edition" id="aavs-edition"></div>
+    <div class="theme" id="aavs-theme-zh"></div>
+    <div class="theme-en en" id="aavs-theme-en"></div>
+    <div class="dates" id="aavs-dates-zh"></div>
+    <div class="dates-en en" id="aavs-dates-en"></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ===== 要闻（AAVS 动态 · 自动轮播） ===== -->
+  <div class="blk" id="news">
+    <h3>要闻 <span class="en">AAVS NEWS</span></h3>
+    <div id="aavs-news-root"></div>
+  </div>
+
+  <!-- ===== 活动简介 ===== -->
+  <div class="blk">
+    <h3>活动简介 <span class="en">ABOUT</span></h3>
+    <div class="aavs-lead">
+      <p id="aavs-fullname"></p>
+      <p id="aavs-desc-zh"></p>
+      <p class="p-en en" id="aavs-desc-en"></p>
+      <div class="aavs-meta" id="aavs-orgs"></div>
+    </div>
+    <div class="stat-row" id="aavs-stats"></div>
+    <figure class="sched-fig" id="aavs-cover-fig" style="margin-top:var(--sp-3)"></figure>
+  </div>
+
+  <!-- ===== 项目主任 ===== -->
+  <div class="blk">
+    <h3>项目主任 <span class="en">PROGRAM DIRECTOR</span></h3>
+    <div id="aavs-director"></div>
+    <div class="quote-box" style="margin-top:var(--sp-2)" id="aavs-quote"></div>
+  </div>
+
+  <!-- ===== 三阶段总览 ===== -->
+  <div class="blk">
+    <h3>三阶段总览 <span class="en">THREE PHASES</span></h3>
+    <div class="phase-grid" id="aavs-phases"></div>
+  </div>
+
+  <!-- ===== 课题单元 ===== -->
+  <div class="blk">
+    <h3>课题单元 <span class="en">UNITS · 娱衣食住行</span></h3>
+    <div class="unit-grid" id="aavs-units"></div>
+  </div>
+
+  <!-- ===== 学术召集人 ===== -->
+  <div class="blk">
+    <h3>学术召集人 <span class="en">ACADEMIC CONVENORS</span></h3>
+    <div id="aavs-convenors"></div>
+  </div>
+
+  <!-- ===== 成果要求 ===== -->
+  <div class="blk">
+    <h3>成果要求 <span class="en">DELIVERABLES</span></h3>
+    <div id="aavs-outcomes"></div>
+  </div>
+
+  <!-- ===== 实用信息 ===== -->
+  <div class="blk">
+    <h3>实用信息 <span class="en">PRACTICAL INFO</span></h3>
+    <div class="info-grid">
+      <div id="aavs-practical"></div>
+      <figure id="aavs-map"></figure>
+    </div>
+  </div>
+
+  <!-- ===== 报名入口 ===== -->
+  <div class="apply-zone">
+    <div class="blk" style="margin-top:0">
+      <h3 style="border:none">报名 <span class="en">APPLY</span></h3>
+    </div>
+    <div id="aavs-apply"></div>
+  </div>
+
+  <!-- ===== Powered by TiDE Lab ===== -->
+  <div class="back-link">
+    <a class="powered-by" href="index.html">Powered by TiDE Lab &rarr;</a>
+  </div>
+
+</main>
+
+<div id="tide-footer"></div>
+
+<script src="data/outputs.js?v=20261026d"></script>
+<script src="data/news.js?v=20261026d"></script>
+<script src="assets/js/ui.js?v=20261026d"></script>
+<script src="assets/js/news-carousel.js?v=20261026d"></script>
+<script>
+(function () {
+  var U = TIDE_UI, A = TIDE_AAVS;
+  function esc(s) { return s || ""; }
+  function fig(img, caption) {
+    if (!img || !img.src) return U.placeholder("图片待补充");
+    return U.img(img.src, caption || "") + "<figcaption>" + esc(caption || img.caption) + "</figcaption>";
+  }
+  function personRows(list) {
+    if (!list || !list.length) return U.placeholder("名单待公布");
+    return '<div class="tutor-grid">' + list.map(function (t) {
+      return '<div class="tutor-card"><div class="t-name">' + esc(t.nameZh) +
+        (t.nameEn ? '<span class="en">' + esc(t.nameEn) + "</span>" : "") + "</div>" +
+        '<div class="t-title">' + esc(t.titleZh) + "</div></div>";
+    }).join("") + "</div>";
+  }
+
+  /* 品牌头图区 */
+  document.getElementById("aavs-edition").textContent = A.edition;
+  document.getElementById("aavs-theme-zh").textContent = A.themeZh;
+  document.getElementById("aavs-theme-en").textContent = A.themeEn;
+  document.getElementById("aavs-dates-zh").textContent = A.datesZh;
+  document.getElementById("aavs-dates-en").textContent = A.datesEn + (A.locationZh ? " · " + A.locationZh : "");
+
+  /* 要闻（AAVS 动态轮播，数据源 TIDE_NEWS 中 sites 含 "aavs" 的条目） */
+  TIDE_NEWS_CAROUSEL.mount(
+    document.getElementById("aavs-news-root"),
+    (window.TIDE_NEWS || []).filter(function (n) { return n.sites && n.sites.indexOf("aavs") >= 0; })
+      .sort(function (a, b) { return a.date < b.date ? 1 : -1; }),
+    U, { siteParam: "aavs" }
+  );
+
+  /* 活动简介 */
+  document.getElementById("aavs-fullname").textContent = A.fullNameZh + " · " + A.fullNameEn;
+  document.getElementById("aavs-desc-zh").textContent = A.descZh;
+  document.getElementById("aavs-desc-en").textContent = A.descEn;
+  document.getElementById("aavs-orgs").textContent =
+    (A.organizersZh || "") + (A.operatorZh ? "；" + A.operatorZh : "");
+
+  /* 数据条 */
+  document.getElementById("aavs-cover-fig").innerHTML = fig(A.images && A.images.cover, A.images && A.images.cover && A.images.cover.caption);
+  var statsEl = document.getElementById("aavs-stats");
+  if (A.stats && A.stats.length) {
+    statsEl.innerHTML = A.stats.map(function (s) {
+      return '<div class="stat-cell"><div class="n">' + esc(s.num) + "</div>" +
+        '<div class="l">' + esc(s.labelZh) + '</div><div class="l-en en">' + esc(s.labelEn) + "</div></div>";
+    }).join("");
+  } else {
+    statsEl.innerHTML = U.placeholder();
+  }
+
+  /* 项目主任 + 寄语 */
+  var dirEl = document.getElementById("aavs-director");
+  if (A.directorZh) {
+    dirEl.innerHTML = '<div style="font-weight:700;font-size:var(--fs-h3);line-height:1.8">' + esc(A.directorZh) + "</div>";
+  } else {
+    dirEl.innerHTML = U.placeholder();
+  }
+  var quoteEl = document.getElementById("aavs-quote");
+  if (A.directorQuoteZh) {
+    quoteEl.innerHTML = '<div class="q">' + esc(A.directorQuoteZh) + '</div><div class="by">' + esc(A.directorQuoteBy) + "</div>";
+  } else {
+    quoteEl.style.display = "none";
+  }
+
+  /* 三阶段总览 */
+  var phEl = document.getElementById("aavs-phases");
+  if (A.phases && A.phases.length) {
+    phEl.innerHTML = A.phases.map(function (p) {
+      return '<div class="phase-card"><div class="ph-head"><span class="dot orange"></span>PHASE ' + esc(p.num) + "</div>" +
+        '<div class="ph-body"><div class="ph-title">' + esc(p.zh) + '</div>' +
+        '<div class="ph-title-en en">' + esc(p.en) + "</div>" +
+        '<div class="ph-dates">' + esc(p.datesZh) + '</div><div class="ph-dates-en en">' + esc(p.datesEn) + "</div>" +
+        '<div class="ph-desc">' + esc(p.descZh) + "</div></div></div>";
+    }).join("");
+  } else {
+    phEl.innerHTML = U.placeholder("详细日程待公布");
+  }
+
+  /* 课题单元 */
+  var unitsEl = document.getElementById("aavs-units");
+  if (A.units && A.units.length) {
+    unitsEl.innerHTML = A.units.map(function (u) {
+      var tutors = (u.tutors || []).map(function (t) {
+        return "<div><strong>" + esc(t.nameZh) + "</strong>" +
+          (t.nameEn && t.nameEn !== t.nameZh ? ' <span class="en" style="color:var(--gray)">' + esc(t.nameEn) + "</span>" : "") +
+          '<br><span style="color:var(--gray)">' + esc(t.titleZh) + "</span></div>";
+      }).join("");
+      return '<div class="unit-card"><div class="u-glyph">' + esc(u.glyph) + "</div>" +
+        '<div class="u-key">' + esc(u.keyZh) + ' <span class="en">' + esc(u.keyEn) + "</span></div>" +
+        '<div class="u-title">' + esc(u.code) + " · " + esc(u.title) + "</div>" +
+        '<div class="u-brief">' + esc(u.briefZh) + "</div>" +
+        '<div class="u-k">导师 TUTOR</div><div class="u-v">' + tutors + "</div>" +
+        (u.outcomeZh ? '<div class="u-k">成果 OUTCOME</div><div class="u-v">' + esc(u.outcomeZh) + "</div>" : "") +
+        "</div>";
+    }).join("");
+  } else {
+    unitsEl.innerHTML = U.placeholder("课题单元待公布");
+  }
+
+  /* 学术召集人 */
+  var cvEl = document.getElementById("aavs-convenors");
+  var C = A.convenors || {};
+  var cvHtml = "";
+  cvHtml += '<div class="tutor-group"><h4>设计营创论坛主旨演讲人 <span class="en">Keynote Speakers</span></h4>' + personRows(C.keynotes) + "</div>";
+  cvHtml += '<div class="tutor-group"><h4>学院主任 <span class="en">Institute Directors</span></h4>' + personRows(C.instituteDirectors) + "</div>";
+  cvHtml += '<div class="tutor-group"><h4>特邀演讲嘉宾 <span class="en">Invited Guest Lecturers</span></h4>' + personRows(C.guestLecturers) + "</div>";
+  cvEl.innerHTML = cvHtml;
+
+  /* 成果要求 */
+  var ocEl = document.getElementById("aavs-outcomes");
+  if (A.outcomes && A.outcomes.length) {
+    ocEl.innerHTML = '<ul class="outcome-list">' + A.outcomes.map(function (o) { return "<li>" + esc(o) + "</li>"; }).join("") + "</ul>";
+  } else {
+    ocEl.innerHTML = U.placeholder("成果要求待公布");
+  }
+
+  /* 实用信息 */
+  var P = A.practicalInfo || {};
+  var pHtml = "";
+  function infoBlk(k, v) {
+    return '<div class="info-blk"><div class="k">' + esc(k) + '</div><div class="v">' + esc(v) + "</div></div>";
+  }
+  if (P.venueZh) pHtml += infoBlk("地点 VENUE", P.venueZh);
+  if (P.addressZh) pHtml += infoBlk("地址 ADDRESS", P.addressZh);
+  if (P.transport && P.transport.length) {
+    pHtml += '<div class="info-blk"><div class="k">校外交通 TRANSPORTATION</div><div class="v">' +
+      P.transport.map(function (t) { return "<strong>" + esc(t.k) + "</strong>：" + esc(t.v); }).join("<br>") + "</div></div>";
+  }
+  if (P.campusZh) pHtml += infoBlk("校内交通 ON CAMPUS", P.campusZh);
+  if (P.appsZh) pHtml += infoBlk("常用 APP APPS", P.appsZh);
+  if (P.contacts && P.contacts.length) {
+    pHtml += '<div class="info-blk"><div class="k">联系方式 CONTACT</div><div class="v">' +
+      P.contacts.map(function (c) { return esc(c.k) + "：" + esc(c.v); }).join("<br>") + "</div></div>";
+  }
+  if (P.socialZh) pHtml += infoBlk("官方账号 SOCIAL", P.socialZh);
+  document.getElementById("aavs-practical").innerHTML = pHtml || U.placeholder("实用信息整理中");
+
+  /* 校园地图：2026-09-30 原配图为手册第12页内页（非校园地图），已下线待替换。
+     补上正确地图（A.images.campusMap 带 src）后自动恢复正常两列渲染。 */
+  var mapEl = document.getElementById("aavs-map");
+  var mapImg = A.images && A.images.campusMap;
+  if (mapImg && mapImg.src) {
+    mapEl.innerHTML = fig(mapImg, mapImg.caption);
+  } else {
+    mapEl.style.display = "none";
+    mapEl.parentNode.classList.add("no-map");
+  }
+
+  /* 报名入口：applyUrl > applyEmail > 占位 */
+  var applyEl = document.getElementById("aavs-apply");
+  if (A.applyUrl) {
+    applyEl.innerHTML = '<a class="btn orange" href="' + A.applyUrl + '" target="_blank" rel="noopener">立即报名 APPLY NOW</a>';
+  } else if (A.applyEmail) {
+    applyEl.innerHTML = '<a class="btn orange" href="mailto:' + A.applyEmail + '">邮件报名 ' + A.applyEmail + "</a>";
+  } else {
+    applyEl.innerHTML = U.placeholder("报名通道即将开启");
+  }
+})();
+</script>
+</body>
+</html>

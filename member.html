@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>成员详情 · TiDE Lab</title>
+<link rel="stylesheet" href="assets/css/tokens.css?v=20261026d">
+<link rel="stylesheet" href="assets/css/base.css?v=20261026d">
+<style>
+  .member-head { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: var(--sp-4); align-items: start; }
+  .member-photo { background: var(--bg-soft); border: 1px solid var(--line); }
+  .member-photo img { width: 100%; aspect-ratio: 3/4; object-fit: cover; }
+  .member-photo figcaption { font-size: var(--fs-tiny); color: var(--gray); padding: 8px; }
+  .plain-list { list-style: none; }
+  .plain-list li { padding: 10px 0; border-bottom: 1px solid var(--line); font-size: var(--fs-small); }
+  .plain-list li strong { font-weight: 900; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--sp-2); }
+  /* 个人网站 · 精选视觉成果（pf- 前缀，全部使用令牌，直角） */
+  .pf-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-3); margin-top: var(--sp-3); }
+  .pf-item { margin: 0; }
+  .pf-item img { width: 100%; display: block; border: 1px solid var(--line); }
+  .pf-item figcaption { font-size: var(--fs-tiny); color: var(--gray); margin-top: 8px; line-height: 1.6; }
+  .pf-embed iframe { width: 100%; height: 560px; border: 1px solid var(--line); background: var(--bg-soft); }
+  .pf-site-link {
+    display: block; text-align: center; margin: var(--sp-3) auto 0; max-width: 520px;
+    background: var(--tide-purple); color: var(--bg); border-bottom: none; border-radius: var(--radius);
+    font-family: var(--font-en); font-size: var(--fs-h3); font-weight: 700;
+    letter-spacing: .12em; padding: var(--sp-3) var(--sp-4);
+  }
+  .pf-site-link:hover { background: var(--tide-orange); color: var(--bg); box-shadow: var(--shadow); }
+  @media (max-width: 640px) {
+    .member-head { grid-template-columns: 1fr; }
+    .member-photo { max-width: 240px; }
+    .pf-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body data-page="people">
+<div id="tide-nav"></div>
+
+<div class="detail">
+  <aside class="rail"><div class="vertical">TiDE LAB</div></aside>
+  <main class="detail-main">
+    <div id="crumbs"></div>
+    <div id="content"></div>
+  </main>
+</div>
+
+<div id="tide-footer"></div>
+
+<script src="data/site.js?v=20261026d"></script>
+<script src="data/research.js?v=20261026d"></script>
+<script src="data/projects.js?v=20261026d"></script>
+<script src="data/members.js?v=20261026d"></script>
+<script src="data/outputs.js?v=20261026d"></script>
+<script src="assets/js/ui.js?v=20261026d"></script>
+<script>
+(function () {
+  var U = TIDE_UI;
+  var content = document.getElementById("content");
+  var crumbsEl = document.getElementById("crumbs");
+
+  /* 论文条目中的 **名字** markdown 加粗转 <strong> */
+  function bold(s) { return s.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>"); }
+  function listItems(arr, useBold) {
+    return '<ul class="plain-list">' + arr.map(function (x) {
+      return "<li>" + (useBold ? bold(x) : x) + "</li>";
+    }).join("") + "</ul>";
+  }
+  function blk(zh, en, inner) {
+    return '<div class="blk"><h3>' + zh + ' <span class="en">' + en + "</span></h3>" + inner + "</div>";
+  }
+
+  var id = U.query("id");
+  var m = null;
+  if (id) {
+    for (var i = 0; i < TIDE_MEMBERS.length; i++) {
+      if (TIDE_MEMBERS[i].id === id) { m = TIDE_MEMBERS[i]; break; }
+    }
+  }
+
+  /* id 缺失或成员不存在：占位 + 返回 */
+  if (!m) {
+    crumbsEl.innerHTML = U.crumbs([
+      { label: "首页", href: "index.html" },
+      { label: "成员", href: "people.html" },
+      { label: "未找到" }
+    ]);
+    content.innerHTML =
+      '<div style="margin-top:var(--sp-5)">' +
+      U.placeholder(id ? "未找到该成员（id: " + id + "）" : "缺少成员 id 参数") +
+      '<div style="margin-top:var(--sp-3)"><a class="biglink" href="people.html">&larr; 返回成员列表 ALL PEOPLE</a></div>' +
+      "</div>";
+    return;
+  }
+
+  var group = null;
+  for (var j = 0; j < TIDE_MEMBER_GROUPS.length; j++) {
+    if (TIDE_MEMBER_GROUPS[j].key === m.group) { group = TIDE_MEMBER_GROUPS[j]; break; }
+  }
+  var groupZh = group ? group.zh : m.group;
+  var groupEn = group ? group.en : "";
+
+  crumbsEl.innerHTML = U.crumbs([
+    { label: "首页", href: "index.html" },
+    { label: "成员", href: "people.html" },
+    { label: m.nameZh }
+  ]);
+
+  /* 头部 */
+  var html = "" +
+    '<div class="detail-label"><span class="k">Member · ' + groupZh + '</span><span class="i">' + m.id + "</span></div>" +
+    '<div class="member-head" style="margin-top:var(--sp-3)">' +
+      '<figure class="member-photo">' + U.img(m.photo, m.nameZh) +
+        "<figcaption>" + m.nameZh + (m.nameEn ? " · " + m.nameEn : "") + "</figcaption></figure>" +
+      "<div>" +
+        '<div class="detail-title">' + m.nameZh + "</div>" +
+        (m.nameEn ? '<div class="detail-title-en">' + m.nameEn + "</div>" : "") +
+        '<div class="meta-table">' +
+          '<div><div class="k">分组 Group</div><div class="v">' + groupZh + ' <span class="en" style="font-weight:400;color:var(--gray)">' + groupEn + "</span></div></div>" +
+          '<div><div class="k">身份 Title</div><div class="v">' + (m.titleZh || "—") + "</div></div>" +
+          '<div><div class="k">导师 Supervisor</div><div class="v">' + (m.supervisor || "—") + "</div></div>" +
+          '<div><div class="k">加入 / 状态</div><div class="v">' + (m.joined ? m.joined + " 年加入" : "—") + (m.status ? " · " + m.status : "") + "</div></div>" +
+        "</div>" +
+        (m.affiliationZh ? '<div style="font-size:var(--fs-small);color:var(--gray)">' + m.affiliationZh + (m.affiliationEn ? " · " + m.affiliationEn : "") + "</div>" : "") +
+      "</div>" +
+    "</div>";
+
+  /* 顶部备注条：仅当 noteZh / noteEn 任一存在（如编外合作成员） */
+  if (m.noteZh || m.noteEn) {
+    html += '<div class="notice" style="margin-top:var(--sp-3)">' +
+      (m.noteZh ? "<strong>" + m.noteZh + "</strong>" : "") +
+      (m.noteEn ? '<div class="en" style="margin-top:var(--sp-2);color:var(--gray)">' + m.noteEn + "</div>" : "") +
+      "</div>";
+  }
+
+  /* 研究方向 */
+  if (m.focusZh || m.focusEn || (m.keywords && m.keywords.length)) {
+    html += blk("研究方向", "RESEARCH FOCUS",
+      (m.focusZh ? "<p><strong>" + m.focusZh + "</strong></p>" : "") +
+      (m.focusEn ? '<p class="en" style="color:var(--gray);font-size:var(--fs-small)">' + m.focusEn + "</p>" : "") +
+      (m.keywords && m.keywords.length
+        ? '<div class="tag-row">' + m.keywords.map(function (k) { return '<span class="tag">' + k + "</span>"; }).join("") + "</div>"
+        : ""));
+  }
+
+  /* 个人简介（空则 placeholder） */
+  var bio = "";
+  if (m.bioZh) bio += "<p>" + m.bioZh + "</p>";
+  if (m.bioEn) bio += '<p class="en" style="color:var(--gray);font-size:var(--fs-small);margin-top:var(--sp-2)">' + m.bioEn + "</p>";
+  html += blk("个人简介", "BIOGRAPHY", bio || U.placeholder("简介待补充"));
+
+  /* 教育背景 */
+  if (m.education && m.education.length)
+    html += blk("教育背景", "EDUCATION", listItems(m.education));
+
+  /* 主要荣誉 */
+  if (m.honors && m.honors.length)
+    html += blk("主要荣誉", "HONORS", listItems(m.honors));
+
+  /* 论文（**名字** 转 <strong>） */
+  if (m.papers && m.papers.length)
+    html += blk("论文", "PUBLICATIONS", listItems(m.papers, true));
+
+  /* 过往项目 */
+  if (m.projects && m.projects.length)
+    html += blk("过往项目", "PROJECTS", listItems(m.projects));
+
+  /* 专利与软著 */
+  if (m.patents && m.patents.length)
+    html += blk("专利与软著", "PATENTS &amp; SOFTWARE COPYRIGHTS", listItems(m.patents));
+
+  /* 获奖 */
+  if (m.awards && m.awards.length)
+    html += blk("获奖", "AWARDS", listItems(m.awards));
+
+  /* 个人网站 · 精选视觉成果：仅当 portfolio 为对象且 gallery 有内容 */
+  var pf = m.portfolio;
+  if (pf && typeof pf === "object" && pf.gallery && pf.gallery.length) {
+    var pfInner = "";
+    if (pf.introZh) pfInner += "<p>" + pf.introZh + "</p>";
+    if (pf.introEn) pfInner += '<p class="en" style="color:var(--gray);font-size:var(--fs-small);margin-top:var(--sp-2)">' + pf.introEn + "</p>";
+
+    /* 直嵌能力（默认关闭，需 embed === true 且 embedUrl 存在） */
+    if (pf.embed === true && pf.embedUrl) {
+      pfInner +=
+        "<!-- 直嵌为可选增强，默认关闭：需站点负责人书面确认；对方站点若设置 X-Frame-Options/CSP frame-ancestors 会白屏，且离线（file://）不可用 -->" +
+        '<div class="pf-embed" style="margin-top:var(--sp-3)">' +
+          '<iframe src="' + pf.embedUrl + '" title="' + (pf.siteLabelZh || "") + '" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>' +
+        "</div>";
+    }
+
+    pfInner += '<div class="pf-grid">' + pf.gallery.map(function (g) {
+      var media = U.img(g.src, g.captionZh);
+      if (g.href) media = '<a href="' + g.href + '" target="_blank" rel="noopener">' + media + "</a>";
+      return '<figure class="pf-item">' + media +
+        "<figcaption>" + (g.captionZh || "") + "</figcaption></figure>";
+    }).join("") + "</div>";
+
+    if (pf.siteUrl) {
+      pfInner += '<a class="biglink pf-site-link" href="' + pf.siteUrl + '" target="_blank" rel="noopener">' +
+        (pf.siteLabelZh || "") + " " + (pf.siteLabelEn || "") + " &rarr;</a>";
+    }
+    html += blk("个人网站 · 精选视觉成果", "PERSONAL SITE · SELECTED WORKS", pfInner);
+  }
+
+  /* 联系方式 */
+  html += blk("联系方式", "CONTACT",
+    '<div class="meta-table" style="margin-top:var(--sp-2)">' +
+      '<div><div class="k">邮箱 Email</div><div class="v">' +
+        (m.email ? '<a href="mailto:' + m.email + '" style="border-bottom:1px solid var(--ink)">' + m.email + "</a>" : '<span style="color:var(--gray-2)">未公开</span>') +
+      "</div></div>" +
+      (m.homepage ? '<div><div class="k">主页 Homepage</div><div class="v"><a href="' + m.homepage + '" target="_blank" rel="noopener" style="border-bottom:1px solid var(--ink)">访问 &rarr;</a></div></div>' : "") +
+      (m.github ? '<div><div class="k">GitHub</div><div class="v"><a href="' + m.github + '" target="_blank" rel="noopener" style="border-bottom:1px solid var(--ink)">访问 &rarr;</a></div></div>' : "") +
+    "</div>");
+
+  html += '<div style="margin-top:var(--sp-5)"><a class="biglink" href="people.html">&larr; 返回成员列表 ALL PEOPLE</a></div>';
+
+  content.innerHTML = html;
+})();
+</script>
+</body>
+</html>
