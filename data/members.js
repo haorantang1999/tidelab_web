@@ -4,12 +4,12 @@
  *   照片放入 assets/img/members/，photo 字段填文件名。
  * 未填写的字段保持 "" 或 []，页面显示"待补充"占位。
  */
-/* 实验室负责人（LEADERSHIP）：两位负责人同等级并列展示 */
+/* 实验室负责人（LEADERSHIP）：两位负责人同等级并列展示（2026-10-26 起 title 定为实验室主任/副主任） */
 window.TIDE_LEADERS = [
 {
   nameZh: "高岩", nameEn: "GAO Yan",
   role: "教师", roleEn: "Faculty",
-  roleLabelZh: "实验室负责人", roleLabelEn: "Head of Laboratory",
+  roleLabelZh: "实验室主任", roleLabelEn: "Director, TiDE Lab",
   titleZh: "副教授 · 博士生导师", titleEn: "Associate Professor, Doctoral Supervisor",
   affiliationZh: "清华大学深圳国际研究生院 未来人居研究院",
   affiliationEn: "Institute of Future Human Habitats, Tsinghua SIGS",
@@ -34,7 +34,7 @@ window.TIDE_LEADERS = [
 {
   nameZh: "姜玉熙", nameEn: "JIANG Yuxi",
   role: "教师", roleEn: "Faculty",
-  roleLabelZh: "实验室创始人", roleLabelEn: "Founder, TiDE Lab",
+  roleLabelZh: "实验室副主任", roleLabelEn: "Deputy Director, TiDE Lab",
   titleZh: "", titleEn: "",
   affiliationZh: "", affiliationEn: "",
   email: "",
@@ -46,10 +46,10 @@ window.TIDE_LEADERS = [
   focusZh: "",
   focusEn: "",
   bioZh: [
-    "姜玉熙是 TIDE Lab 创始人兼副主任、AA 清华访校副主任、NEXUS 创始人。"
+    "姜玉熙是 TIDE Lab 实验室副主任、AA 清华访校副主任、NEXUS 创始人。"
   ],
   bioEn: [
-    "Jade Jiang is Co-Founder and Deputy Director of TiDE Lab, Deputy Director of the AA China Visiting School, and Founder of NEXUS."
+    "Jade Jiang is Deputy Director of TiDE Lab, Deputy Director of the AA China Visiting School, and Founder of NEXUS."
   ],
   researchAreas: [],
   education: [],
@@ -98,19 +98,22 @@ window.TIDE_MEMBERS = [
     honors: [], appointments: [], papers: [], projects: [], patents: [], portfolio: "", awards: []
   },
 {
+    /* 2026-10-26 重构：依据 成员信息/唐浩然/唐浩然_实习简历.pdf（多模态大模型与空间智能方向）
+     * 更新研究方向、简介、论文与项目；头像与 GitHub 保留。 */
     id: "tang-haoran", group: "phd",
     nameZh: "唐浩然", nameEn: "TANG Haoran",
     titleZh: "未来人居学院博士生", titleEn: "PhD Student, Institute of Future Human Habitats",
     affiliationZh: "清华大学深圳国际研究生院", affiliationEn: "Tsinghua SIGS",
     email: "", homepage: "", github: "https://github.com/haorantang1999", scholar: "", orcid: "",
-    joined: "2025", expected: "", status: "在组", supervisor: "高岩",
+    joined: "2026", expected: "", status: "在组", supervisor: "高岩",
     photo: "assets/img/members/tang-haoran.jpg",
-    keywords: ["城市热环境", "城市绿地与健康", "机器学习与大语言模型", "空间数据分析", "数字孪生"],
-    focusZh: "城市热环境与绿地健康的非线性机制，机器学习与大语言模型驱动的空间分析。",
-    focusEn: "Nonlinear mechanisms of urban thermal environments and green-space health, with machine-learning and LLM-driven spatial analysis.",
-    bioZh: "研究技能涵盖大语言模型、机器学习、中大尺度空间数据分析、深度学习、数据挖掘与环境心理学实验。工具链：Python、R、GEE、QGIS、ArcGIS Pro、Unity、ENVI-met、Grasshopper 等。雅思 7.0。",
-    bioEn: "His research spans large language models, machine learning, meso- and large-scale spatial data analysis, deep learning, data mining and environmental psychology experiments. Toolchain: Python, R, GEE, QGIS, ArcGIS Pro, Unity, ENVI-met, Grasshopper. IELTS 7.0.",
+    keywords: ["多模态大模型与城市感知", "空间智能", "机器学习与深度学习", "数字孪生", "Agent 与 LLM 应用"],
+    focusZh: "多模态大模型与城市感知、空间智能；垂类数据端到端迁移与可解释归因。",
+    focusEn: "Multimodal LLMs for urban perception and spatial intelligence, with end-to-end domain adaptation and interpretable attribution.",
+    bioZh: "唐浩然，清华大学深圳国际研究生院未来人居研究院博士研究生（多模态大模型与空间智能方向），师从高岩教授。研究聚焦多模态大模型在城市感知与空间智能中的应用：将众包感知指标经 LoRA 迁移至 Qwen3-VL-8B，对约 48.3 万张方向视图完成批量评分，形成 Data for AI → 微调 → 推理 → 评测闭环；构建 1,325 维景观格局指数矩阵与双视角 LightGBM 分类器，结合 SHAP 可解释归因，发现两视角 top-10 驱动因素零重叠。工程实践覆盖街区级热预警系统（Flutter + FastAPI + PostgreSQL/PostGIS，6 步无人值守管线）、AI 文旅合影一体机全栈系统、田野调查多源采集 App 与多智能体工作流编排，具备模型训练（SFT/LoRA）、服务端工程（FastAPI/Redis/Docker）与 AI Infra（vLLM）经验。雅思 7.0。",
+    bioEn: "TANG Haoran is a PhD student at the Institute of Future Human Habitats, Tsinghua Shenzhen International Graduate School, supervised by Prof. Gao Yan, focusing on multimodal LLMs and spatial intelligence. His research transfers crowd-sensed perception metrics to Qwen3-VL-8B via LoRA and completes batch scoring of roughly 483,000 directional views, closing a Data-for-AI → fine-tuning → inference → evaluation loop. He builds a 1,325-dim landscape pattern matrix with dual-view LightGBM classifiers and SHAP attribution, finding zero overlap between the two views' top-10 driving factors. Engineering practice spans a block-level heat warning system (Flutter + FastAPI + PostgreSQL/PostGIS with a 6-step unattended pipeline), an AI tourism photo kiosk, a multi-source field collection app, and multi-agent workflow orchestration, with skills in model training (SFT/LoRA), backend engineering (FastAPI/Redis/Docker) and AI infra (vLLM). IELTS 7.0.",
     education: [
+      "博士（在读）｜未来人居研究院（多模态大模型与城市感知、空间智能）｜清华大学深圳国际研究生院｜2026.08–至今",
       "园境建筑硕士（MLA）｜园境建筑｜香港大学（中国香港）｜2022.09–2024.12",
       "建筑学学士｜建筑学｜中国矿业大学｜2017.09–2022.06"
     ],
@@ -125,7 +128,13 @@ window.TIDE_MEMBERS = [
       "**TANG Haoran**（第五作者）等｜产业政策对新能源汽车企业技术创新的影响：基于政策文本的 LDA 模型分析及技术进步对策｜中文核心期刊（C 类）｜2024.05"
     ],
     projects: [
-      "高密度城市下蓝绿空间对居民健康影响（深圳高等教育稳定支持计划）｜研究助理（全职）· 哈尔滨工业大学（深圳）未来栖息地实验室｜主导全过程：方法设计、实验、数据收集与可视化、初稿撰写｜2024.07–至今",
+      "SZ-Cycle：Qwen3-VL-8B 垂类微调与城市级批量推理（SCI 共同一作 · R2 小修）｜负责数据管线/微调/推理/评测｜2025.12–至今",
+      "RELOAD FOREST：街区级热预警系统（毕业论文产品化，论文 A 级 · MLA 文集收录）｜全栈 MVP 端到端跑通｜2026.10",
+      "ML-Analyst：桌面 ML 工具的多租户生产化｜FastAPI + Redis/RQ + Docker Compose，38 个 API 端点，最佳 R²=0.8727｜2026",
+      "AI 文旅合影一体机：景区打卡合影全栈系统｜PRD → FastAPI 全栈 → 55 条主链路 E2E 断言 → 部署脚本｜2026",
+      "Reverse_Skill：三波 6 阶段多智能体（Multi-Agent）工作流｜自研 Agent 编排，上下文隔离 + JSON 传递 + 冗余容错｜2026",
+      "看见与假设：街景视觉语言模型内部状态痕迹的空间化｜三模型跨架构对照（Qwen3-VL-8B / LLaVA-1.6-Mistral-7B / InternVL2-8B）｜2026",
+      "高密度城市下蓝绿空间对居民健康影响（深圳高等教育稳定支持计划）｜研究助理（全职）· 哈尔滨工业大学（深圳）未来栖息地实验室｜主导全过程｜2024.07–2026.09",
       "建筑设计专题 I（高岩教授）· 清华深圳国际研究生院｜研究助理：地理空间数据、三维重建与数字孪生技术支持；城市多源数据分析与 LLM 在智能建造中的探索｜2025.10–至今",
       "城市环境与人类健康实验室（姜斌教授）· 香港大学｜研究助理（兼职）：研究提案、实地数据采集与预实验、VR 实验设计与实施、街景与心理生理数据采集｜2022.10–2023.09",
       "太阳能十项全能竞赛（CUMT & AGH & HSP 团队）｜核心成员：方案设计、标识与旗帜设计、中期路演与宣传运营｜2020.12–2021.10",
@@ -161,12 +170,55 @@ window.TIDE_MEMBERS = [
     ]
   },
 {
+    /* 2026-10-26 更新：收集表补全研究方向/简介/教育/任职/获奖；头像取自 docx 内嵌图；
+     * 个人作品集（陈宣湘_个人作品集.pdf，37 页）渲染封面与内页预览图至 assets/img/members/chen-xuanxiang/。 */
     id: "chen-xuanxiang", group: "master",
     nameZh: "陈宣湘", nameEn: "CHEN Xuanxiang",
-    titleZh: "", affiliationZh: "清华大学深圳国际研究生院", email: "",
-    joined: "", expected: "", status: "在组", supervisor: "高岩",
-    photo: "", keywords: [], focusZh: "", focusEn: "", bioZh: "", bioEn: "",
-    education: [], honors: [], appointments: [], papers: [], projects: [], patents: [], portfolio: "", awards: []
+    titleZh: "未来人居学院硕士生", titleEn: "Master's Student, Institute of Future Human Habitats",
+    affiliationZh: "清华大学深圳国际研究生院未来人居", affiliationEn: "Institute of Future Human Habitats, Tsinghua SIGS",
+    email: "", homepage: "", scholar: "", orcid: "",
+    joined: "2026", expected: "2028", status: "在组", supervisor: "高岩",
+    /* 照片来源：成员信息/陈宣湘/陈宣湘_TiDE_Lab_成员信息收集表_v3.0_中英双语(9).docx 内嵌 word/media/image1.jpeg */
+    photo: "assets/img/members/chen-xuanxiang.jpg",
+    keywords: ["AI辅助建筑生成设计", "机器人建造", "参数化与生成式设计"],
+    focusZh: "研究 AI 辅助建筑生成设计，构建适配机器人建造的设计与校验工作流。",
+    focusEn: "AI-assisted architectural generative design; building a design and verification workflow adapted for robotic construction.",
+    bioZh: "拥有近六年建筑一线实践经验，曾任职于上海山水秀与 Playze 建筑事务所，深度参与近三十项建筑项目，涵盖文化公共建筑、教育建筑与城市更新等类型，覆盖从概念方案到施工配合的完整流程。长期关注参数化与算法在场地分析、空间推演与形体生成中的应用，并探索生成式 AI 介入设计流程的有效路径。当前研究兴趣集中于 AI 辅助建筑生成设计与机器人建造，希望构建从生成设计到建造校验的完整工作流，让数字技术真正服务于设计与建造本身。",
+    bioEn: "With nearly six years of frontline architectural practice at Scenic Architecture Office and Playze in Shanghai, he has contributed to nearly thirty architectural projects spanning cultural and public buildings, educational buildings, and urban regeneration, covering the full process from concept design to construction documentation. He has long focused on the application of parametric and algorithmic methods in site analysis, spatial reasoning, and form generation, while exploring effective pathways for generative AI to enter the design process. His current research interests center on AI-assisted architectural generative design and robotic construction, aiming to build a complete workflow from generative design to construction verification, so that digital technology truly serves design and construction itself.",
+    education: [
+      "建筑学学士学位｜建筑学｜浙江工业大学｜2015–2020"
+    ],
+    honors: [],
+    appointments: [
+      "建筑师｜上海山水秀建筑设计顾问有限公司｜2020–2023",
+      "建筑师｜Playze 建筑事务所（上海）｜2024–2026"
+    ],
+    papers: [], projects: [], patents: [],
+    /* 个人作品集预览：源文件为 37 页 PDF（成员信息/陈宣湘/陈宣湘_个人作品集.pdf），此处展示封面与代表内页 */
+    portfolio: {
+      siteUrl: "",
+      siteLabelZh: "陈宣湘个人作品集",
+      siteLabelEn: "PORTFOLIO",
+      introZh: "以下为陈宣湘个人作品集（建筑设计 PORTFOLIO）的封面与代表内页预览，作品集共 37 页，涵盖课程设计、工作阶段作品与其他作品。",
+      introEn: "Cover and representative spreads from CHEN Xuanxiang's architectural design portfolio (37 pages), covering course designs, professional work and other works.",
+      embed: false,
+      embedUrl: "",
+      gallery: [
+        { src: "assets/img/members/chen-xuanxiang/portfolio-cover.jpg",
+          captionZh: "作品集封面：建筑设计 Architectural Design · 作品集 PORTFOLIO（图源：陈宣湘个人作品集）",
+          href: "" },
+        { src: "assets/img/members/chen-xuanxiang/portfolio-01.jpg",
+          captionZh: "作品集代表内页：设计作品与工作阶段作品选页（图源：陈宣湘个人作品集）",
+          href: "" }
+      ]
+    },
+    awards: [
+      "一等奖、三等奖｜上海基础设施设计竞赛｜2024",
+      "最佳人气奖｜南京立体环境社区单元设计竞赛｜2022",
+      "二等奖｜「楠溪民居」建筑方案设计竞赛｜2021",
+      "铜奖｜「筑·健未来」全国大学生建筑设计竞赛｜2020",
+      "优秀作品奖｜全国高校「绿色建筑设计」技能大赛｜2019"
+    ]
   },
 {
     id: "chen-shilin", group: "master",
@@ -294,12 +346,32 @@ window.TIDE_MEMBERS = [
     education: [], honors: [], appointments: [], papers: [], projects: [], patents: [], portfolio: "", awards: []
   },
 {
+    /* 波斯籍成员：nameEn 采用本名语序（Given + Family，Parastoo MOEINI），
+     * 不套用中文成员的「姓全大写 + 名」倒装；nameZh 为其自填中文名「文燕」。
+     * 2026-10-26 更新：收集表补全研究方向/简介/教育/荣誉/兼职；头像取自 docx 内嵌图。 */
     id: "wen-yan", group: "master",
-    nameZh: "文燕", nameEn: "Parastoo",
-    titleZh: "", affiliationZh: "清华大学深圳国际研究生院", email: "",
-    joined: "", expected: "", status: "在组", supervisor: "高岩",
-    photo: "", keywords: [], focusZh: "", focusEn: "", bioZh: "", bioEn: "",
-    education: [], honors: [], appointments: [], papers: [], projects: [], patents: [], portfolio: "", awards: []
+    nameZh: "文燕", nameEn: "Parastoo MOEINI",
+    titleZh: "互联网+创新设计硕士生", titleEn: "Master's Student, Internet+ Innovation Design",
+    affiliationZh: "清华大学深圳国际研究生院", affiliationEn: "Tsinghua SIGS",
+    email: "", homepage: "", github: "", scholar: "", orcid: "",
+    joined: "2026", expected: "2027", status: "在组", supervisor: "高岩",
+    /* 照片来源：成员信息/文燕/TiDE_Lab_成员信息收集表_v3.0_中英双语.docx 内嵌 word/media/image1.jpg */
+    photo: "assets/img/members/wen-yan.jpg",
+    keywords: ["人工智能", "参数化人体建模", "三维人体建模", "数字服装", "大码体型分析", "虚拟试衣"],
+    focusZh: "大码体型参数化建模与人工智能驱动的数字服装映射研究。",
+    focusEn: "AI-driven parametric modeling of plus-size body shapes and their mapping to 3D digital garments.",
+    bioZh: "文燕，清华大学深圳国际研究生院互联网+创新设计专业硕士研究生，研究兴趣包括人工智能、参数化人体建模、三维数字人体与数字服装设计。目前主要关注大码体型特征的参数化表达及其与三维人体模型的映射方法，探索人工智能在人体形态分析、数字服装适配与虚拟试衣中的应用。具有汉语言与跨文化交流背景，致力于融合语言文化、数字技术与创新设计，探索人工智能赋能服装设计的跨学科研究路径。",
+    bioEn: "Parastoo is a master's student in Internet+ Innovation Design at Tsinghua Shenzhen International Graduate School. With an academic background in Chinese Language and Culture, she is interested in interdisciplinary research connecting artificial intelligence, digital technologies, and innovative design. Her current research focuses on parametric representation of plus-size body shapes and their mapping to three-dimensional human models. She explores the potential of AI-assisted body-shape analysis, 3D digital garment design, and virtual try-on applications. Through this research, she aims to investigate how computational modeling can better represent diverse body shapes and support more inclusive and personalized digital clothing experiences. She is also interested in cross-cultural communication and collaboration between technology and design.",
+    education: [
+      "硕士｜互联网+创新设计｜清华大学深圳国际研究生院｜2025–至今",
+      "本科｜汉语言（Chinese Language and Culture）｜德黑兰大学孔子学院｜2021–2025"
+    ],
+    honors: [
+      "清华大学深圳国际研究生院奖学金获得者",
+      "伊朗赛区「汉语桥」中文比赛全国第三名"
+    ],
+    appointments: ["实习生｜深圳广电谷得传媒有限公司"],
+    papers: [], projects: [], patents: [], portfolio: "", awards: []
   },
 {
     id: "ren-yuxin", group: "master",
@@ -331,7 +403,8 @@ window.TIDE_MEMBERS = [
       "TOIO Agents｜多智能体仿真与实体控制｜多智能体训练与实体控制系统搭建｜2025–2026"
     ],
     patents: ["实用新型｜（名称待补充）｜ZL202421851520.9｜（授权年份待补充）"],
-    awards: ["全国绿色建筑设计竞赛三等奖｜全国绿色建筑设计竞赛委员会｜（年份待补充）"],
+    /* awards 栏已按负责人要求整体移除（2026-10-26），个人页不再渲染「获奖 AWARDS」区块 */
+    awards: [],
     /* 个人网站精选视觉成果：图片已本地化（离线可用），每项均可回源至个人网站对应页面 */
     portfolio: {
       siteUrl: "https://yuxinren.com",
@@ -417,10 +490,37 @@ window.TIDE_MEMBERS = [
 {
     id: "zhao-liuxin", group: "engineer",
     nameZh: "赵柳鑫", nameEn: "ZHAO Liuxin",
-    titleZh: "研究工程师", affiliationZh: "清华大学深圳国际研究生院", email: "",
-    joined: "", expected: "", status: "在组", supervisor: "",
-    photo: "", keywords: [], focusZh: "", focusEn: "", bioZh: "", bioEn: "",
-    education: [], honors: [], appointments: [], papers: [], projects: [], patents: [], portfolio: "", awards: []
+    titleZh: "研究工程师", titleEn: "Research Engineer",
+    affiliationZh: "清华大学深圳国际研究生院", affiliationEn: "Tsinghua SIGS",
+    /* 邮箱未标注「可公开」，按隐私铁律留空（2026-10-26） */
+    email: "", homepage: "", scholar: "", orcid: "",
+    joined: "2025", expected: "", status: "在组", supervisor: "",
+    photo: "assets/img/members/zhao-liuxin.jpg",
+    keywords: ["计算性设计", "数字引擎", "数控制造", "机器人建造", "沉浸式媒介与交互"],
+    focusZh: "计算性设计与数字引擎驱动的机器人建造及空间交互。",
+    focusEn: "Computational design and digital engines for robotic fabrication and spatial interaction.",
+    bioZh: "赵柳鑫现任清华大学深圳国际研究生院未来人居研究院设计与科研助理，拥有建筑联盟学院新兴技术与设计硕士、谢菲尔德大学城市设计与规划硕士学位。研究与实践聚焦计算性设计、数字引擎、数控制造、机器人建造及沉浸式交互，涵盖参数化建模、建筑性能仿真、数字化生产与现场实施。曾参与模块化快装建筑、展厅互动装置及设计交流活动，具备三轴与五轴数控加工、六轴工业机器人编程和增减材制造经验，致力于衔接设计、制造与建造流程。",
+    bioEn: "ZHAO Liuxin is a Design and Research Assistant at the Institute for Future Human Habitats, Tsinghua Shenzhen International Graduate School. ZHAO holds master's degrees in Emergent Technologies and Design from the Architectural Association and in Urban Design and Planning from the University of Sheffield, and a bachelor's degree in Urban and Rural Planning from Henan University. The work focuses on computational design, digital engines, CNC fabrication, robotic fabrication, and immersive interaction. This experience spans parametric modelling, building performance simulation, modular buildings, and interactive installations. ZHAO works with three- and five-axis CNC machining, six-axis industrial robots, and additive manufacturing to connect design, fabrication, and construction.",
+    education: [
+      "硕士｜新兴技术与设计｜建筑联盟学院｜2022.09–2023.10",
+      "硕士｜城市设计与规划｜谢菲尔德大学｜2021.09–2022.09",
+      "学士｜城乡规划｜河南大学｜2016.09–2021.06"
+    ],
+    honors: [
+      "2022 威卢克斯国际设计竞赛（IVA）西欧赛区区域优胜者（Daylight in Buildings 类别）",
+      "2022 International VELUX Award: Regional Winner, Western Europe (Daylight in Buildings)"
+    ],
+    appointments: [],
+    papers: [],
+    projects: [
+      "深圳湾公园 CARI+ 模块化快装建筑｜深圳湾公园配套建筑项目｜主创、驻场设计师｜2025.07–2025.12",
+      "上海万科理想之地·新新所展厅空间与装置设计｜万科「理想之地」展厅项目｜交互设计与现场技术负责人｜2024.02–2024.05"
+    ],
+    patents: [
+      "实用新型｜一种便于运输的可折叠房屋建筑｜ZL202520437587.6｜2026"
+    ],
+    portfolio: "",
+    awards: []
   },
 {
     id: "ng-cheuk-hei", group: "collaborator", collab: true,

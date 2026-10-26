@@ -77,7 +77,7 @@ window.TIDE_AAVS = {
   organizersZh: "主办：英国AA建筑联盟学院 ｜ 清华大学深圳国际研究生院未来人居研究院（iFHHs）",
   organizersEn: "Organised by Architectural Association School of Architecture & iFHHs, Tsinghua SIGS",
   operatorZh: "承办：清华SIGS未来人居数字引擎实验室（TiDE Lab）",
-  directorZh: "项目主任：高岩（清华SIGS未来人居研究院副教授、TiDE Lab 主任、AA清华访校主任）｜ 副主任：姜玉熙（TiDE Lab 创始人兼副主任、NEXUS 创始人）",
+  directorZh: "项目主任：高岩（清华SIGS未来人居研究院副教授、TiDE Lab 实验室主任、AA清华访校主任）｜ 副主任：姜玉熙（TiDE Lab 实验室副主任、NEXUS 创始人）",
   directorQuoteZh: "未来人居，始于匠艺，终于哲思。人居之问，即存在之问，我们设计的不仅是空间，更是人与世界相互关联的尺度。",
   directorQuoteBy: "—— 高岩 Dr. Yan Gao",
   descZh: "AAVS（AA Visiting School）是全球性的建筑教育项目和网络，2008年于迪拜启动，已在五大洲100多个城市举办访校项目。AA-清华夏季访校营始于2010年，本届落户粤港澳大湾区，以\"数字引擎·超级智造\"为主题，提出\"未来营造\"概念，跨越人性智慧与机器智能的鸿沟，围绕\"娱、衣、食、住、行\"五个日常生活维度展开课程、工作坊与设计实践。",

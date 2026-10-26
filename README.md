@@ -17,7 +17,7 @@ cd site && python -m http.server 8899 --bind 127.0.0.1
 | 新增/更新成员 | 编辑 `data/members.js`：在对应分组（phd/master/engineer/collaborator）追加或补全对象；照片放入 `assets/img/members/` 并在 `photo` 字段填路径。字段结构对齐《成员信息收集表 v3.0》，暂无的字段留 `""` 或 `[]`。**分组内按姓氏字母序**（姓氏 = `nameEn` 去括号后最后一个全大写单词，无则取末词），新增成员请插入到正确位置 |
 | 登记编外合作成员 | 编辑 `data/members.js`：`group: "collaborator"` + `collab: true` + `noteZh/noteEn` 说明合作身份；**其成果不要抄进 `outputs.js`**（不计入实验室成果统计） |
 | 维护成员个人网站作品集 | 编辑 `data/members.js` 的 `portfolio`：图片先下载到 `assets/img/members/<id>/`（严禁外链），每张图注以「（图源：…）」结尾；`siteUrl` 渲染为醒目横幅外链。`portfolio.embed` 默认 `false`（iframe 直嵌为可选增强，需负责人确认） |
-| 更新负责人信息 | 编辑 `data/members.js` 的 `TIDE_LEADERS`（高岩=实验室负责人，姜玉熙=实验室创始人）；只保留最基础信息（高岩：照片/姓名/职称/单位/邮箱/主页/办公室/focus/keywords/个人简介；姜玉熙：姓名/个人简介），空字段页面自动跳过不渲染。首页「**创始人 FOUNDERS**」栏与 people.html 的负责人双卡**共用这一份数据**，改一处两处同步 |
+| 更新负责人信息 | 编辑 `data/members.js` 的 `TIDE_LEADERS`（高岩=实验室主任，姜玉熙=实验室副主任）；只保留最基础信息（高岩：照片/姓名/职称/单位/邮箱/主页/办公室/focus/keywords/个人简介；姜玉熙：姓名/个人简介），空字段页面自动跳过不渲染。首页「**实验室主任/副主任 LEADERSHIP**」栏与 people.html 的负责人双卡**共用这一份数据**，改一处两处同步 |
 | 调整首页精选成员 | `index.html` 内 `featuredIds`（默认 唐浩然 / 赵天乐）＋ 自动补齐逻辑：从「有照片且非编外合作」的成员里，**优先挑有 `focusZh` 的**补到 4 张，避免首页出现「简介待补充」空卡 |
 | 新增项目 | 编辑 `data/projects.js` 追加对象（id 用英文短横线命名）；图片放入 `assets/img/projects/` |
 | 更新论文/专利/获奖 | 编辑 `data/outputs.js` 对应数组追加。论文（`TIDE_PUBLICATIONS`）**按 `year` 降序排列**，只收「已发表 + 已录用」；「审稿中/大修」写在成员详情页即可。**题目尚未定稿的论文不要上站**（宁可暂缺，也不要挂「题目待公布」占位） |

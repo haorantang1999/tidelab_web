@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>成员 PEOPLE · TiDE Lab</title>
-<link rel="stylesheet" href="assets/css/tokens.css?v=20261026d">
-<link rel="stylesheet" href="assets/css/base.css?v=20261026d">
+<link rel="stylesheet" href="assets/css/tokens.css?v=20261026e">
+<link rel="stylesheet" href="assets/css/base.css?v=20261026e">
 <style>
   /* 负责人双卡（LEADERSHIP） */
   .ldr-card { border: 1px solid var(--line); display: flex; flex-direction: column; }
@@ -55,7 +55,7 @@
 <main class="wrap">
   <div id="page-head"></div>
 
-  <!-- ===== 实验室负责人 ===== -->
+  <!-- ===== 实验室主任/副主任 ===== -->
   <section id="leadership"></section>
 
   <!-- ===== 分组：博士生 / 硕士生 / 研究工程师 ===== -->
@@ -64,12 +64,12 @@
 
 <div id="tide-footer"></div>
 
-<script src="data/site.js?v=20261026d"></script>
-<script src="data/research.js?v=20261026d"></script>
-<script src="data/projects.js?v=20261026d"></script>
-<script src="data/members.js?v=20261026d"></script>
-<script src="data/outputs.js?v=20261026d"></script>
-<script src="assets/js/ui.js?v=20261026d"></script>
+<script src="data/site.js?v=20261026e"></script>
+<script src="data/research.js?v=20261026e"></script>
+<script src="data/projects.js?v=20261026e"></script>
+<script src="data/members.js?v=20261026e"></script>
+<script src="data/outputs.js?v=20261026e"></script>
+<script src="assets/js/ui.js?v=20261026e"></script>
 <script>
 (function () {
   var U = TIDE_UI;
@@ -78,7 +78,7 @@
   document.getElementById("page-head").innerHTML =
     U.secHead("成员", "PEOPLE", "Space · Data<br/>Materials · Tomorrow", "green") +
     '<p style="max-width:720px;color:var(--ink-2);font-size:var(--fs-small)">' +
-    '实验室负责人与在组博士生、硕士生、研究工程师。成员信息依据收集表字段结构呈现，未提交资料的成员显示占位。' +
+    '实验室主任、副主任与在组博士生、硕士生、研究工程师。成员信息依据收集表字段结构呈现，未提交资料的成员显示占位。' +
     '</p>';
 
   /* ===== 负责人双卡 ===== */
@@ -161,7 +161,7 @@
   }
 
   document.getElementById("leadership").innerHTML =
-    U.secHead("实验室负责人", "LEADERSHIP", "", "purple") +
+    U.secHead("实验室主任/副主任", "LEADERSHIP", "", "purple") +
     '<div class="grid c2" style="align-items:stretch">' +
     TIDE_LEADERS.map(leaderCard).join("") +
     "</div>";

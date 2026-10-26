@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TiDE Lab · 清华SIGS未来人居数字引擎实验室</title>
-<link rel="stylesheet" href="assets/css/tokens.css?v=20261026d">
-<link rel="stylesheet" href="assets/css/base.css?v=20261026d">
-<link rel="stylesheet" href="assets/css/news-carousel.css?v=20261026d">
+<link rel="stylesheet" href="assets/css/tokens.css?v=20261026e">
+<link rel="stylesheet" href="assets/css/base.css?v=20261026e">
+<link rel="stylesheet" href="assets/css/news-carousel.css?v=20261026e">
 <style>
 /* 首页特有：放大版 AAVS 跳转按钮（TiDE Lab → AAVS 双向强入口） */
 .hero-more {
@@ -118,7 +118,7 @@
   <div class="grid c3" id="outputs-grid"></div>
   <div style="margin-top:var(--sp-3)"><a class="biglink" href="outputs.html">全部成果 ALL OUTPUTS &rarr;</a></div>
 
-  <!-- ===== 创始人（两位负责人单拎出来，独立一栏） ===== -->
+  <!-- ===== 实验室主任/副主任（两位负责人单拎出来，独立一栏） ===== -->
   <div id="sec-founders-head"></div>
   <div class="grid c2" id="founders-grid"></div>
 
@@ -140,14 +140,14 @@
 
 <div id="tide-footer"></div>
 
-<script src="data/site.js?v=20261026d"></script>
-<script src="data/news.js?v=20261026d"></script>
-<script src="data/research.js?v=20261026d"></script>
-<script src="data/projects.js?v=20261026d"></script>
-<script src="data/members.js?v=20261026d"></script>
-<script src="data/outputs.js?v=20261026d"></script>
-<script src="assets/js/ui.js?v=20261026d"></script>
-<script src="assets/js/news-carousel.js?v=20261026d"></script>
+<script src="data/site.js?v=20261026e"></script>
+<script src="data/news.js?v=20261026e"></script>
+<script src="data/research.js?v=20261026e"></script>
+<script src="data/projects.js?v=20261026e"></script>
+<script src="data/members.js?v=20261026e"></script>
+<script src="data/outputs.js?v=20261026e"></script>
+<script src="assets/js/ui.js?v=20261026e"></script>
+<script src="assets/js/news-carousel.js?v=20261026e"></script>
 <script>
 (function () {
   var U = TIDE_UI, S = TIDE_SITE;
@@ -198,7 +198,7 @@
       '<div class="under"></div></div></a>';
   }).join("");
 
-  /* 创始人（两位负责人单拎出来，独立成栏，位于「成果」与「成员」之间） */
+  /* 实验室主任/副主任（两位负责人单拎出来，独立成栏，位于「成果」与「成员」之间） */
   var leaders = window.TIDE_LEADERS || [TIDE_ADVISOR];
   function leaderCard(L) {
     var photo = L.photo ? '<div class="photo">' + U.img(L.photo, L.nameZh) + '</div>'
@@ -211,7 +211,7 @@
       '</div></a>';
   }
   document.getElementById("sec-founders-head").innerHTML =
-    U.secHead("创始人", "FOUNDERS", "Lab Leadership<br/>&amp; Direction", "purple");
+    U.secHead("实验室主任/副主任", "LEADERSHIP", "Lab Leadership<br/>&amp; Direction", "purple");
   document.getElementById("founders-grid").innerHTML = leaders.map(leaderCard).join("");
 
   /* 成员（不含负责人；编外合作不进入首页精选；优先展示有研究方向的成员，补齐 4 张） */
