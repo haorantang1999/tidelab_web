@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TiDE Lab · 清华SIGS未来人居数字引擎实验室</title>
-<link rel="stylesheet" href="assets/css/tokens.css?v=20261026e">
-<link rel="stylesheet" href="assets/css/base.css?v=20261026e">
-<link rel="stylesheet" href="assets/css/news-carousel.css?v=20261026e">
+<link rel="stylesheet" href="assets/css/tokens.css?v=20261027a">
+<link rel="stylesheet" href="assets/css/base.css?v=20261027a">
+<link rel="stylesheet" href="assets/css/news-carousel.css?v=20261027a">
 <style>
 /* 首页特有：放大版 AAVS 跳转按钮（TiDE Lab → AAVS 双向强入口） */
 .hero-more {
@@ -24,6 +24,18 @@
 /* 创始人栏为半幅大卡：资料未补全时，占位字放大，避免出现大片空白像「坏图」 */
 #founders-grid .photo-empty { font-size: 88px; color: var(--gray-2); }
 #founders-grid .person .focus { font-size: var(--fs-small); }
+/* 全部成员大按钮：成员基数大，跳转钮做大做醒目（2026-10-27） */
+.people-cta-wrap { margin-top: var(--sp-4); display: flex; justify-content: center; }
+.btn.people-cta {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: var(--tide-purple); color: var(--bg);
+  font-family: var(--font-en); font-size: 22px; font-weight: 900; letter-spacing: .12em;
+  padding: 20px 56px; border-bottom: 3px solid var(--tide-purple-dark);
+}
+.btn.people-cta:hover {
+  background: var(--tide-purple-dark); color: var(--bg);
+  transform: translateY(-2px); box-shadow: var(--shadow);
+}
 /* 要闻轮播样式：assets/css/news-carousel.css（与 AAVS 副站共用） */
 
 /* ===== 首页开源项目轮播（页面级，op- 前缀，仅用令牌，无渐变/圆角/特效） ===== */
@@ -125,7 +137,8 @@
   <!-- ===== 成员 ===== -->
   <div id="sec-people-head"></div>
   <div class="grid c4" id="people-grid"></div>
-  <div style="margin-top:var(--sp-3)"><a class="biglink" href="people.html">全部成员 ALL PEOPLE &rarr;</a></div>
+  <!-- 全部成员跳转钮：成员基数大，做成大号实心按钮便于跳转（2026-10-27） -->
+  <div class="people-cta-wrap"><a class="btn people-cta" href="people.html">全部成员 ALL PEOPLE &rarr;</a></div>
 
   <!-- ===== 资源外链区 ===== -->
   <div id="sec-resources-head"></div>
@@ -140,14 +153,14 @@
 
 <div id="tide-footer"></div>
 
-<script src="data/site.js?v=20261026e"></script>
-<script src="data/news.js?v=20261026e"></script>
-<script src="data/research.js?v=20261026e"></script>
-<script src="data/projects.js?v=20261026e"></script>
-<script src="data/members.js?v=20261026e"></script>
-<script src="data/outputs.js?v=20261026e"></script>
-<script src="assets/js/ui.js?v=20261026e"></script>
-<script src="assets/js/news-carousel.js?v=20261026e"></script>
+<script src="data/site.js?v=20261027a"></script>
+<script src="data/news.js?v=20261027a"></script>
+<script src="data/research.js?v=20261027a"></script>
+<script src="data/projects.js?v=20261027a"></script>
+<script src="data/members.js?v=20261027a"></script>
+<script src="data/outputs.js?v=20261027a"></script>
+<script src="assets/js/ui.js?v=20261027a"></script>
+<script src="assets/js/news-carousel.js?v=20261027a"></script>
 <script>
 (function () {
   var U = TIDE_UI, S = TIDE_SITE;
@@ -214,22 +227,18 @@
     U.secHead("实验室主任/副主任", "LEADERSHIP", "Lab Leadership<br/>&amp; Direction", "purple");
   document.getElementById("founders-grid").innerHTML = leaders.map(leaderCard).join("");
 
-  /* 成员（不含负责人；编外合作不进入首页精选；优先展示有研究方向的成员，补齐 4 张） */
+  /* 成员（不含负责人；编外合作不进入首页精选）
+   * 2026-10-27 起：按 phd→master→engineer 通排的姓氏字母序取前 4 位（即 members.js 数组顺序前 4 个合格成员），
+   * 不再维护 featuredIds 硬编码名单；无照片/无简介的成员自动跳过顺延。 */
   document.getElementById("sec-people-head").innerHTML =
     U.secHead("成员", "PEOPLE", "Space · Data<br/>Materials · Tomorrow", "green");
   var want = 4;
-  var featuredIds = ["tang-haoran", "zhao-tianle"];
-  var featured = featuredIds.map(function (id) {
-    return TIDE_MEMBERS.filter(function (m) { return m.id === id; })[0];
-  }).filter(Boolean);
-  if (featured.length < want) {
-    var pool = TIDE_MEMBERS.filter(function (m) {
-      return m.photo && m.group !== "collaborator" && featuredIds.indexOf(m.id) < 0;
-    });
-    /* 有研究方向的排前面，避免首页出现「简介待补充」的空卡 */
-    pool.sort(function (a, b) { return (b.focusZh ? 1 : 0) - (a.focusZh ? 1 : 0); });
-    featured = featured.concat(pool.slice(0, want - featured.length));
-  }
+  var pool = TIDE_MEMBERS.filter(function (m) {
+    return m.group !== "collaborator" && (m.photo || m.focusZh);
+  });
+  /* 有照片的优先（避免首页出现占位方块），组内数组顺序即姓氏字母序 */
+  pool.sort(function (a, b) { return (b.photo ? 1 : 0) - (a.photo ? 1 : 0); });
+  var featured = pool.slice(0, want);
   document.getElementById("people-grid").innerHTML = featured.map(U.personCard).join("");
 
   /* 资源外链区 */

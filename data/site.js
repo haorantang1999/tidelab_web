@@ -46,30 +46,30 @@ window.TIDE_SITE = {
     { name: "飞书", url: "", note: "协作文档与知识库（待开通）" }
   ],
 
-  /* 开源项目清单（2026-09-30 依据 GitHub 公开 API 登记；stars 为登记日快照）
+  /* 开源项目清单（2026-09-30 依据 GitHub 公开 API 首次登记；stars 为登记日快照，需定期核实更新）
    * 字段：name 仓库名 · url 仓库地址 · descZh/descEn 简介 · author 维护者 ·
    *       lang 主语言 · stars 星标数 · year 创建年份 */
   openProjects: [
     {
-      name: "cc-pdf2zh-skill", author: "唐浩然", lang: "Python", stars: 23, year: 2026,
+      name: "cc-pdf2zh-skill", author: "唐浩然", lang: "Python", stars: 31, year: 2026,
       url: "https://github.com/haorantang1999/cc-pdf2zh-skill",
       descZh: "批量翻译英文文献的 Agent 技能：一条指令把一篇乃至数十篇 PDF 论文译为中文，保留公式与版式。",
       descEn: "An agent skill for batch-translating English papers into Chinese while preserving formulas and layout."
     },
     {
-      name: "GeoData_Locater", author: "唐浩然", lang: "JavaScript", stars: 13, year: 2026,
+      name: "GeoData_Locater", author: "唐浩然", lang: "JavaScript", stars: 14, year: 2026,
       url: "https://github.com/haorantang1999/GeoData_Locater",
       descZh: "全球地理数据库检索平台：汇总各国开放地理数据源，支持一站检索与社区共建。",
       descEn: "A one-stop search platform indexing open geospatial data sources worldwide."
     },
     {
-      name: "Toio-ML-Agents-Bot", author: "任宇新", lang: "C#", stars: 1, year: 2026,
+      name: "Toio-ML-Agents-Bot", author: "任宇新", lang: "C#", stars: 2, year: 2026,
       url: "https://github.com/renyuxin6666-tech/Toio-ML-Agents-Bot",
       descZh: "Unity ML-Agents × Sony toio 桌面对照实验台：训练摄像头追踪的推箱策略并部署到实体机器人。",
       descEn: "A Unity ML-Agents × Sony toio testbed training a camera-tracked box-pushing policy on physical robots."
     },
     {
-      name: "context-handoff-manager", author: "任宇新", lang: "Python", stars: 1, year: 2026,
+      name: "context-handoff-manager", author: "任宇新", lang: "Python", stars: 2, year: 2026,
       url: "https://github.com/renyuxin6666-tech/context-handoff-manager",
       descZh: "隐私优先的上下文监控与任务交接技能：把长任务的上下文与决策过程沉淀为可审计的交接记录。",
       descEn: "A privacy-preserving skill for live context monitoring and auditable task handoffs."
@@ -87,7 +87,7 @@ window.TIDE_SITE = {
       descEn: "A research prototype coordinating campus public life across activities, shared materials and spaces."
     }
   ],
-  openProjectsAsOf: "2026-09-30",
+  openProjectsAsOf: "2026-10-27",
 
   /* 联系与地址（暂无信息留空） */
   contact: {
