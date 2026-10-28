@@ -194,21 +194,22 @@ window.TIDE_MEMBERS = [
       "建筑师｜Playze 建筑事务所（上海）｜2024–2026"
     ],
     papers: [], projects: [], patents: [],
-    /* 个人作品集预览：源文件为 37 页 PDF（成员信息/陈宣湘/陈宣湘_个人作品集.pdf），此处展示封面与代表内页 */
+    /* 个人作品集预览：源文件为 37 页 PDF（成员信息/陈宣湘/陈宣湘_个人作品集.pdf）。
+     * 2026-10-28 起首图改为作品集首个效果图页（p04 左页「01 空中庙宇」主效果图），不再用封面展示 */
     portfolio: {
       siteUrl: "",
       siteLabelZh: "陈宣湘个人作品集",
       siteLabelEn: "PORTFOLIO",
-      introZh: "以下为陈宣湘个人作品集（建筑设计 PORTFOLIO）的封面与代表内页预览，作品集共 37 页，涵盖课程设计、工作阶段作品与其他作品。",
-      introEn: "Cover and representative spreads from CHEN Xuanxiang's architectural design portfolio (37 pages), covering course designs, professional work and other works.",
+      introZh: "以下为陈宣湘个人作品集（建筑设计 PORTFOLIO）的效果图页预览，作品集共 37 页，涵盖课程设计、工作阶段作品与其他作品。",
+      introEn: "Rendering spreads from CHEN Xuanxiang's architectural design portfolio (37 pages), covering course designs, professional work and other works.",
       embed: false,
       embedUrl: "",
       gallery: [
-        { src: "assets/img/members/chen-xuanxiang/portfolio-cover.jpg",
-          captionZh: "作品集封面：建筑设计 Architectural Design · 作品集 PORTFOLIO（图源：陈宣湘个人作品集）",
+        { src: "assets/img/members/chen-xuanxiang/portfolio-render-01.jpg",
+          captionZh: "作品集首个效果图：01 空中庙宇 Sky Temple——类型学转译 · 城市垂直山径主效果图（图源：陈宣湘个人作品集）",
           href: "" },
-        { src: "assets/img/members/chen-xuanxiang/portfolio-01.jpg",
-          captionZh: "作品集代表内页：设计作品与工作阶段作品选页（图源：陈宣湘个人作品集）",
+        { src: "assets/img/members/chen-xuanxiang/portfolio-render-02.jpg",
+          captionZh: "作品集效果图页：空中庙宇外观与藏书阁、法堂室内效果图（图源：陈宣湘个人作品集）",
           href: "" }
       ]
     },
@@ -281,6 +282,98 @@ window.TIDE_MEMBERS = [
     ]
   },
 {
+    /* 中国香港成员：本人填表英文名为粤拼「CHEUNG Arts」（姓 CHEUNG 全大写 + 名 Arts），
+     * 论文署名 Arts Cheung；勿改成 ZHANG。CHEUNG 按姓氏字母序插在 CHEN×3 之后。 */
+    id: "zhang-chuyi", group: "master",
+    nameZh: "张础艺", nameEn: "CHEUNG Arts",
+    titleZh: "硕士研究生（在读）", titleEn: "Master's Student",
+    affiliationZh: "清华大学深圳国际研究生院 · 未来人居研究院", affiliationEn: "Institute for Future Human Habitats, Tsinghua SIGS",
+    /* 邮箱公开意向待确认（收集表未标「可公开」），按隐私铁律留空（2026-10-28） */
+    email: "", homepage: "", github: "", scholar: "", orcid: "0009-0009-6325-989X",
+    joined: "2026", expected: "2027", status: "在组", supervisor: "高岩",
+    /* 照片来源：成员信息/张础艺/TiDE成员信息_张础艺_20261027.docx 内嵌 word/media/arts_portrait.jpg（取自所附 CV） */
+    photo: "assets/img/members/zhang-chuyi.jpg",
+    keywords: ["参数化与生成式设计", "数字建造", "机器人建造", "循环与可逆建造", "人工智能辅助设计", "非遗数字化"],
+    focusZh: "面向可逆建造与非遗传承的智能设计研究。",
+    focusEn: "Intelligent design for reversible construction and cultural heritage preservation.",
+    bioZh: "张础艺（Arts Cheung）来自中国香港，现为清华大学深圳国际研究生院未来人居研究院硕士研究生，导师为高岩老师，2026年加入TiDE Lab，预计2027年毕业。本科毕业于华侨大学产品设计专业，曾赴英国剑桥交流。研究兴趣涵盖生成式设计、数字建造、可逆装配与人工智能辅助设计，参与非周期单元循环建造、气候适应性净零建筑设计及人形机器人舞麒麟等研究实践。作品HOUSE A获2024年Architecture MasterPrize学生组建筑与室内设计奖。他也参与香港社区服务与非遗传承，关注设计、技术和社会实践之间的联系。",
+    bioEn: "CHEUNG Arts is a master's student at the Institute for Future Human Habitats, Tsinghua Shenzhen International Graduate School, supervised by Yan Gao. From Hong Kong, China, he joined TiDE Lab in 2026 and expects to graduate in 2027. He holds a bachelor's degree in Product Design from Huaqiao University and attended an exchange programme in Cambridge. His interests include generative design, digital fabrication, reversible assembly, and AI-assisted design. His research and practice involve aperiodic modular construction, climate-adaptive net-zero buildings, and humanoid robot interpretations of the Hakka unicorn dance. His HOUSE A project received 2024 Architecture MasterPrize student awards in architecture and interior design. He also participates in community service and heritage preservation in Hong Kong, exploring connections among design, technology, and social practice.",
+    education: [
+      "硕士（在读）｜未来人居设计｜清华大学｜2025–2027（预计）",
+      "学士｜产品设计｜华侨大学｜2021–2025",
+      "交流课程｜大数据与金融科技｜英国剑桥｜2023.08"
+    ],
+    honors: [
+      "2024 Architecture MasterPrize 学生建筑设计奖、学生室内设计奖（HOUSE A）",
+      "2024 米兰设计大赛省级二等奖"
+    ],
+    appointments: [
+      "西贡区胡雪莲议员助理（现任）",
+      "叶傲冬立法会议员办事处助理（拟于 2026-11-05 起任职）",
+      "东江纵队老战士联谊会会员",
+      "青年民建联成员",
+      "香港侨界社团联会青年委员会成员"
+    ],
+    papers: [
+      "**Arts Cheung**, Shengyou Liu, Tianyi Sang, Junwei Gu, Jingmei Ma, Yuxin Jiang｜Potential of the Crypto Market in China（中国加密货币市场的潜力）｜Cambridge Explorations in Arts and Sciences 1(2)（已发表）｜2023",
+      "**Arts Cheung**, YuXin Ren, LiuXin Zhao, Qi Wang, Cheuk Hei Alfred NG, Jun Yin, Haoran Tang, Xiang Deng, Jing Zhong, Wai Ning Louie, Jade Jiang, Yan Gao｜LLM-Driven Generative Design for Climate-Adaptive Net-Zero Buildings（面向气候适应性净零建筑的大语言模型驱动生成式设计）｜BAS 2026（海报已展示；会议论文已录取、待出版）｜2026",
+      "Yuxin Ren, **Arts Cheung**, Yusong Hu, Qi Wang, Peter Búš, Yuxi Jiang, Jing Zhong, Xiang Deng, Wai Ning LOUIE, Yan Gao｜An Aperiodic Monotile Assembly System for Reversible and Open-Ended Circular Construction（面向可逆与开放式循环建造的非周期单元装配系统）｜CDRF 2026（已录取）｜2026"
+    ],
+    projects: [
+      "非周期单元循环建造装配系统（AMAS）｜清华大学未来人居研究院｜研究团队成员；论文第二作者｜2026",
+      "大语言模型驱动的气候适应性净零建筑生成式设计｜BAS 2026 研究成果｜论文第一作者｜2026",
+      "人形机器人舞麒麟｜香港非遗与跨学科研发实践｜项目发起与团队研发实践｜2026",
+      "HOUSE A 住宅建筑与室内设计｜学生设计项目｜主创设计师（作品页署名）｜2024",
+      "Caterpillar Cabin 户外模块化智能旅行舱｜华侨大学本科毕业设计（指导：崔洪亮）｜设计者｜2025",
+      "自然居室内设计与 AA28 翻新相关实践｜企业设计实践｜设计助理（测量、图纸与报价）"
+    ],
+    patents: [
+      "发明专利申请（已公布）｜基于非周期几何单元的模块化构筑物组装控制方法及系统（申请人：清华大学深圳国际研究生院）｜202611021002.8｜2026（2026-10-16 公布，尚未授权）"
+    ],
+    /* 作品公开页图集：HOUSE A（Architecture MasterPrize 获奖页）+ Caterpillar Cabin（华侨大学毕业展页） */
+    portfolio: {
+      siteUrl: "https://architectureprize.com/winners/winner.php?id=7993",
+      siteLabelZh: "张础艺作品公开页",
+      siteLabelEn: "SELECTED WORKS",
+      introZh: "以下为张础艺两项公开作品的展示图：HOUSE A（2024 Architecture MasterPrize 学生建筑设计奖、学生室内设计奖）与 Caterpillar Cabin 户外模块化智能旅行舱（华侨大学 2025 届本科毕业设计）。",
+      introEn: "Publicly shown works by CHEUNG Arts: HOUSE A (2024 Architecture MasterPrize student awards) and Caterpillar Cabin, a modular outdoor travel pod (graduation design, Huaqiao University, 2025).",
+      embed: false,
+      embedUrl: "",
+      gallery: [
+        { src: "assets/img/members/zhang-chuyi/house-1.jpg",
+          captionZh: "HOUSE A：住宅建筑外观与项目标题页（图源：Architecture MasterPrize 获奖页）",
+          href: "https://architectureprize.com/winners/winner.php?id=7993" },
+        { src: "assets/img/members/zhang-chuyi/house-2.jpg",
+          captionZh: "HOUSE A：设计愿景与立面构想（图源：Architecture MasterPrize 获奖页）",
+          href: "https://architectureprize.com/winners/winner.php?id=7993" },
+        { src: "assets/img/members/zhang-chuyi/house-3.jpg",
+          captionZh: "HOUSE A：法式窗与室内效果（图源：Architecture MasterPrize 获奖页）",
+          href: "https://architectureprize.com/winners/winner.php?id=7993" },
+        { src: "assets/img/members/zhang-chuyi/house-4.jpg",
+          captionZh: "HOUSE A：起居室设计（图源：Architecture MasterPrize 获奖页）",
+          href: "https://architectureprize.com/winners/winner.php?id=7993" },
+        { src: "assets/img/members/zhang-chuyi/house-5.jpg",
+          captionZh: "HOUSE A：建造进度记录（图源：Architecture MasterPrize 获奖页）",
+          href: "https://architectureprize.com/winners/winner.php?id=7993" },
+        { src: "assets/img/members/zhang-chuyi/cabin-2.jpg",
+          captionZh: "Caterpillar Cabin：概念草图、舱体布局与剖视（图源：华侨大学 2025 届毕业作品展）",
+          href: "https://www.shejijingsai.com/2025/06/1355302.html" },
+        { src: "assets/img/members/zhang-chuyi/cabin-3.jpg",
+          captionZh: "Caterpillar Cabin：履带式可调模块舱体设计展示板（图源：华侨大学 2025 届毕业作品展）",
+          href: "https://www.shejijingsai.com/2025/06/1355302.html" }
+      ]
+    },
+    awards: [
+      "Architecture MasterPrize 学生建筑设计奖（HOUSE A）｜Architecture MasterPrize (AMP)｜2024",
+      "Architecture MasterPrize 学生室内设计奖（HOUSE A）｜Architecture MasterPrize (AMP)｜2024",
+      "米兰设计大赛省级二等奖｜2024",
+      "第五届香港当代设计奖铜奖｜香港当代设计奖（HKCDA）｜2023",
+      "G-Cross Award 铜奖｜G-Cross Award｜2023",
+      "桃里坪山项目百校大街入围奖｜2024",
+      "TRAE 年度优秀校园伙伴｜TRAE｜2025"
+    ]
+  },
+{
     /* 俄罗斯籍成员：nameEn 按本人语序原样录入（Given "Anna" + Family "DOVGALIUK"），不倒装；
      * AIID = 清华SIGS「AI+ 创新设计」硕士项目（2 年制、全英文授课）。 */
     id: "anna-dovgaliuk", group: "master",
@@ -294,8 +387,8 @@ window.TIDE_MEMBERS = [
     keywords: ["计算机视觉", "自主无人机", "交互设计", "媒体艺术"],
     focusZh: "将前沿技术融入当代艺术实践。",
     focusEn: "Integrating emerging technologies into contemporary artistic practice.",
-    bioZh: "Anna Dovgaliuk 来自俄罗斯，现为清华大学深圳国际研究生院（SIGS）AIID 项目的硕士研究生。她于 2020 至 2024 年在 MISIS 攻读设计应用信息学本科课程，并于 2024 至 2026 年学习技术艺术硕士课程。她的研究兴趣包括计算机视觉、自主无人机、交互设计和媒体艺术。目前，她致力于探索如何将自主无人机与计算机视觉融入当代艺术实践，创造连接人与数字系统及周围环境的交互体验。",
-    bioEn: "Anna Dovgaliuk is originally from Russia and is currently a master's student in AIID at Tsinghua Shenzhen International Graduate School (SIGS). She studied Applied Informatics in Design at MISIS at the bachelor's level from 2020 to 2024 and Technological Art at the master's level from 2024 to 2026. Her research interests include computer vision, autonomous drones, interaction design, and media art. Her current work explores how autonomous drones and computer vision can be integrated into contemporary artistic practice to create interactive experiences connecting people, digital systems, and the surrounding environment.",
+    bioZh: "Anna Dovgaliuk 2004 年出生于俄罗斯沃罗涅日，现居莫斯科，为清华大学深圳国际研究生院（SIGS）AIID 项目的硕士研究生。她于 2020 至 2024 年在 MISIS 攻读设计应用信息学本科课程，2024 至 2026 年学习技术艺术硕士课程。她的艺术实践以装置与影像为媒介，结合金属加工（铸造、变形、装配）与电气工程，把数字技术、视听装置与交互形式编织在一起，重新思考过去与现在的复杂叙事。代表系列自述《Chronicles of Future Ethics》关注社会与经济结构对人的行为方式的影响。作品曾展出于中国西安「In-Between Generations」（2025）、俄罗斯圣彼得堡、沃罗涅日、莫斯科与杜布纳等地。研究兴趣包括计算机视觉、自主无人机、交互设计和媒体艺术。",
+    bioEn: "Anna Dovgaliuk (born 2004 in Voronezh, Russia; lives and works in Moscow) is a master's student in AIID at Tsinghua Shenzhen International Graduate School (SIGS). She studied Applied Informatics in Design at MISIS from 2020 to 2024 and Technological Art from 2024 to 2026. Working with installation and video art, metal (casting, deformation, assembly) and electrical engineering, she brings together digital technologies, audiovisual installations and interactive formats to rethink complex narratives of the past and the present. Her statement series “Chronicles of Future Ethics” examines how social and economic structures shape human behaviour. Her work has been shown at “In-Between Generations” in Xi'an, China (2025) and in St. Petersburg, Voronezh, Moscow and Dubna, Russia. Her research interests include computer vision, autonomous drones, interaction design and media art.",
     education: [
       "硕士（在读）｜应用信息学 · 人工智能与交互设计（AIID）｜清华大学深圳国际研究生院｜2026–2028",
       "硕士｜应用信息学 · 技术艺术（Technological Art）｜俄罗斯国立研究型技术大学 MISIS｜2024–2026",
@@ -303,16 +396,68 @@ window.TIDE_MEMBERS = [
     ],
     honors: [
       "参展「In-Between Generations」展览（中国西安）｜2025",
-      "获奖「Design Workshop」竞赛（DAMN MISIS 团队，「Lomonosov Cluster」赛道）｜2023"
+      "获奖「Design Workshop」竞赛（DAMN MISIS 团队，「Lomonosov Cluster」赛道）｜2023",
+      "驻留｜International Summer Camp on Digital Arts and Future Creativity（沈阳师范大学）",
+      "2025 年参展：Chasing the Future（圣彼得堡）· Soil Composition（沃罗涅日州立艺术博物馆）· POTOK（杜布纳）· I Would Write You a Letter…（沃罗涅日）· Student May. Spaces of the Lost（莫斯科 GROUND Solyanka）· Time of Digits Forum（莫斯科）· Symbiosis. Vol 1（莫斯科 VS Gallery）· ArtTech 25（莫斯科 Krasnokholmskaya 画廊）"
     ],
     appointments: [],
     papers: [],
     projects: [
       "5th Young Scientists Congress｜Roscongress Foundation｜平面设计（活动物料）｜2025",
       "Forum Time of Digital｜SP Group｜艺术家｜2025",
-      "Eastern Economic Forum (EEF)｜Roscongress Foundation｜程序开发｜2025"
+      "Eastern Economic Forum (EEF)｜Roscongress Foundation｜程序开发｜2025",
+      "个人艺术项目（装置 / 影像 / 金属 / 电气）：Transformer · Paradox · Anatomy of Air · Archive of Stars · Domeandia · Technical Blindness · Dislocation of Life · Slice 1696 · Web-tower · 90x60x90 · V-M-K"
     ],
-    patents: [], portfolio: "", awards: []
+    patents: [],
+    /* 个人网站精选视觉成果：图片已本地化（离线可用），项目名按 anliona.com 页面顺序对应 */
+    portfolio: {
+      siteUrl: "https://anliona.com",
+      siteLabelZh: "安娜个人网站 Anliona",
+      siteLabelEn: "PERSONAL SITE",
+      introZh: "以下为安娜个人网站（anliona.com）的精选视觉成果节选，涵盖其装置、影像与金属工艺方向的 11 个艺术项目；图片经本地化镜像，完整作品与创作陈述请访问其个人网站。",
+      introEn: "Selected visual works from Anna's personal site (anliona.com), covering 11 art projects in installation, video art and metalwork; images mirrored locally. Full works and statement are available on the site.",
+      embed: false,
+      embedUrl: "https://anliona.com",
+      gallery: [
+        { src: "assets/img/members/anna-dovgaliuk/transformer.jpg",
+          captionZh: "Transformer：彩色透光圆盘装置（图源：安娜个人网站 anliona.com）",
+          href: "https://anliona.com" },
+        { src: "assets/img/members/anna-dovgaliuk/paradox.jpg",
+          captionZh: "Paradox：宽幅混合媒介装置场景（图源：安娜个人网站 anliona.com）",
+          href: "https://anliona.com" },
+        { src: "assets/img/members/anna-dovgaliuk/anatomy-of-air.jpg",
+          captionZh: "Anatomy of Air：墙面金色光点投影（图源：安娜个人网站 anliona.com）",
+          href: "https://anliona.com" },
+        { src: "assets/img/members/anna-dovgaliuk/archive-of-stars.jpg",
+          captionZh: "Archive of Stars：展厅多屏影像装置现场（图源：安娜个人网站 anliona.com）",
+          href: "https://anliona.com" },
+        { src: "assets/img/members/anna-dovgaliuk/domeandia.jpg",
+          captionZh: "Domeandia：冰川湖泊景观影像（图源：安娜个人网站 anliona.com）",
+          href: "https://anliona.com" },
+        { src: "assets/img/members/anna-dovgaliuk/technical-blindness.jpg",
+          captionZh: "Technical Blindness：黑白颗粒影像（图源：安娜个人网站 anliona.com）",
+          href: "https://anliona.com" },
+        { src: "assets/img/members/anna-dovgaliuk/dislocation-of-life.jpg",
+          captionZh: "Dislocation of Life：混凝土砌块与光源构成的装置（图源：安娜个人网站 anliona.com）",
+          href: "https://anliona.com" },
+        { src: "assets/img/members/anna-dovgaliuk/slice-1696.jpg",
+          captionZh: "Slice 1696：暗场放射状发光装置（图源：安娜个人网站 anliona.com）",
+          href: "https://anliona.com" },
+        { src: "assets/img/members/anna-dovgaliuk/web-tower.jpg",
+          captionZh: "Web-tower：彩色拼接圆盘近景（图源：安娜个人网站 anliona.com）",
+          href: "https://anliona.com" },
+        { src: "assets/img/members/anna-dovgaliuk/90x60x90.jpg",
+          captionZh: "90x60x90：绿色线框扫描体（图源：安娜个人网站 anliona.com）",
+          href: "https://anliona.com" },
+        { src: "assets/img/members/anna-dovgaliuk/v-m-k.jpg",
+          captionZh: "V-M-K：现场表演与蓝色发光体交互（图源：安娜个人网站 anliona.com）",
+          href: "https://anliona.com" },
+        { src: "assets/img/members/anna-dovgaliuk/projects-cover.jpg",
+          captionZh: "个人网站 Projects 版块主图：阴极射线管显示器堆叠装置（图源：安娜个人网站 anliona.com）",
+          href: "https://anliona.com" }
+      ]
+    },
+    awards: []
   },
 {
     id: "hao-renhan", group: "master",
@@ -436,14 +581,6 @@ window.TIDE_MEMBERS = [
           href: "https://yuxinren.com/work/" }
       ]
     }
-  },
-{
-    id: "zhang-chuyi", group: "master",
-    nameZh: "张础艺", nameEn: "Art ZHANG",
-    titleZh: "", affiliationZh: "清华大学深圳国际研究生院", email: "",
-    joined: "", expected: "", status: "在组", supervisor: "高岩",
-    photo: "", keywords: [], focusZh: "", focusEn: "", bioZh: "", bioEn: "",
-    education: [], honors: [], appointments: [], papers: [], projects: [], patents: [], portfolio: "", awards: []
   },
 {
     id: "he-ziyi", group: "engineer",
