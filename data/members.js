@@ -69,12 +69,51 @@ window.TIDE_ADVISOR = window.TIDE_LEADERS[0];
 window.TIDE_MEMBERS = [
   /* ===== 博士生 ===== */
   {
+    /* 中国香港成员（2026-10-29 录入）：英文名按本人填表用粤拼「LOUIE William」（雷=LOUIE，非普通话拼音 LEI），
+     * 论文署名 Wai Ning Louie；中文名用繁体「雷衛寧」，个人字段保留繁体（繁体字专项处理，勿转简体）。
+     * id 保持 lei-weining 不改（链接稳定）；姓氏排序键 = LOUIE，phd 组序 LOUIE < NASIRI < TANG 不变。 */
     id: "lei-weining", group: "phd",
-    nameZh: "雷卫宁", nameEn: "William LEI",
-    titleZh: "", affiliationZh: "清华大学深圳国际研究生院", email: "",
-    joined: "", expected: "", status: "在组", supervisor: "高岩",
-    photo: "", keywords: [], focusZh: "", focusEn: "", bioZh: "", bioEn: "",
-    education: [], honors: [], appointments: [], papers: [], projects: [], patents: [], portfolio: "", awards: []
+    nameZh: "雷衛寧", nameEn: "LOUIE William",
+    titleZh: "建築學博士生（在讀）", titleEn: "Ph.D. Candidate in Architecture",
+    affiliationZh: "清華大學深圳國際研究生院 · 建築", affiliationEn: "Tsinghua SIGS · Architecture",
+    /* 邮箱未标「可公开」，按隐私铁律留空（2026-10-29） */
+    email: "", homepage: "", github: "", scholar: "", orcid: "",
+    joined: "2026", expected: "", status: "在組", supervisor: "高岩",
+    /* 照片来源：成员信息/LOUIE_William/William个人信息.png（本人提交，裁 3:4 至 900×1200） */
+    photo: "assets/img/members/lei-weining.jpg",
+    keywords: ["災後重建", "代謝派建築", "文化遺產保育", "Robotic 3D", "2D to 3D"],
+    focusZh: "人為或自然災害後之重建及保育與代謝派共生主義之重生關係。",
+    focusEn: "The relationship between post-disaster (human-made or natural) reconstruction and conservation, and the resurgence of Metabolism symbolism.",
+    bioZh: "雷衛寧（William Louie）現為清華大學深圳國際研究生院建築學博士生（2026 年入組，導師高岩），擁有香港大學建築學碩士（2015）與英國哈德斯菲爾德大學室內建築一級榮譽學士（2013）學位。曾於聖方濟各大學、香港大學專業進修學院與密德薩斯大學合辦課程、香港大學建築系及香港懲教署任教室內設計與多媒體課程。他致力於提供既充滿激情又細膩精巧的設計，涵蓋建築、室內設計、家具設計等領域，旨在滿足並超越客戶的期望。研究關注人為或自然災害後的重建與保育，以及代謝派建築共生主義的重生關係。",
+    bioEn: "William Louie is a Ph.D. candidate in Architecture at Tsinghua Shenzhen International Graduate School (supervisor: Yan Gao). He holds a Master of Architecture from the University of Hong Kong (2015) and a BA (First-Class Honours) in Interior Architecture from the University of Huddersfield, UK (2013). He has taught interior design and multimedia programmes at St. Francis University, HKU SPACE with Middlesex University, the Department of Architecture at HKU, and the HK Correctional Services Department. He strives to provide passionate yet delicate designs covering architecture, interior design and furniture design, to meet and beyond clients' expectations. His research concerns the relationship between post-disaster (human-made or natural) reconstruction and conservation, and the resurgence of Metabolism symbolism.",
+    education: [
+      "博士（在讀）｜建築｜清華大學深圳國際研究生院｜2026–至今",
+      "建築學碩士｜建築｜香港大學｜2015",
+      "文學學士（一級榮譽）｜室內建築｜英國哈德斯菲爾德大學｜2013"
+    ],
+    honors: [
+      "Architecture Association Asia Workshop Scholarship",
+      "RIBA Sir Norman Foster Traveling Scholarship（提名 Nominated）"
+    ],
+    appointments: [
+      "室內設計講師｜聖方濟各大學 St. Francis University",
+      "室內設計講師｜香港大學專業進修學院 HKU SPACE × 密德薩斯大學 Middlesex University",
+      "導師｜香港大學建築系",
+      "多媒體課程講師｜香港懲教署 HK Correctional Services Dept."
+    ],
+    papers: [], projects: [], patents: [], portfolio: "",
+    awards: [
+      "Finalist – Best Student Interior Design｜Perspective｜2012",
+      "2nd Runner Up – Cart Design｜West Kowloon Center｜2010",
+      "Outstanding Achievement – Tsim Sha Tsui East Lighting｜2010",
+      "1st Runner Up – Central Market Activation｜Perspective｜2010",
+      "1st Runner Up – Bamboo Pavilion｜World Expo｜2010",
+      "1st Runner Up – Best Architecture Student｜Perspective｜2010",
+      "1st Runner Up – Street Furniture Design｜Eastern Harbor Front｜2010",
+      "Outstanding Achievement – Mid Autumn Lantern Design｜HK Government｜2009",
+      "Champion – North Point Harbour Conceptual Design｜North Point District｜2009",
+      "Finalist – Best Student Interior Design｜Perspective｜2008"
+    ]
   },
 {
     /* 伊朗籍成员：nameEn 采用本名语序（Given + Father-initial + Family，即 SAMA S. NASIRI），

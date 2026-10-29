@@ -7,7 +7,7 @@ window.TIDE_UI = (function () {
   "use strict";
 
   /* 缓存破除：内容更新时递增此版本号，所有图片/资源自动强制刷新 */
-  window.TIDE_VER = "20261028a";
+  window.TIDE_VER = "20261029a";
 
   /* 页面注册表（顺序即导航顺序） */
   var PAGES = [
