@@ -623,10 +623,30 @@ window.TIDE_MEMBERS = [
 {
     id: "he-ziyi", group: "engineer",
     nameZh: "何梓艺", nameEn: "HE Ziyi",
-    titleZh: "研究工程师", affiliationZh: "清华大学深圳国际研究生院", email: "",
-    joined: "", expected: "", status: "在组", supervisor: "",
-    photo: "", keywords: [], focusZh: "", focusEn: "", bioZh: "", bioEn: "",
-    education: [], honors: [], appointments: [], papers: [], projects: [], patents: [], portfolio: "", awards: []
+    titleZh: "研究工程师", titleEn: "Research Engineer",
+    affiliationZh: "清华大学深圳国际研究生院 · 未来人居研究院", affiliationEn: "Institute of Future Human Habitats, Tsinghua SIGS",
+    /* 邮箱未标「可公开」，按隐私铁律留空（2026-10-29） */
+    email: "", homepage: "", github: "", scholar: "", orcid: "",
+    joined: "2026", expected: "", status: "在组", supervisor: "",
+    /* 照片来源：成员信息/何梓艺/何梓艺个人头像.png（RGBA 白底合成 → 裁 3:4 → 900×1200） */
+    photo: "assets/img/members/he-ziyi.jpg",
+    keywords: ["参数化与生成式设计", "数字建造", "计算性设计与仿真", "沉浸式媒介与交互", "低碳与可持续建造"],
+    focusZh: "可拆卸快速装配式建筑与 BIM 全流程集成的参数化方法与双向验证研究。",
+    focusEn: "Parametric methods and two-way theory-practice validation for demountable rapid-assembly building systems and full-process BIM integration.",
+    bioZh: "何梓艺，建筑学与艺术背景的设计师，中央美术学院建筑学学士，拥有四年建筑设计经验与近两年建筑产品设计经历，专注快速搭建与预制化现代木结构建筑系统的研发。长期以参数化设计解决实际问题：运用 Rhino/Grasshopper 进行生成式设计与木构节点受力性能优化，基于 Revit 建立覆盖结构、围护与内装的参数化构件族库，打通「生形优化—参数驱动—CNC 数控加工」的设计制造一体化闭环。研究经历包括深圳建筑双城双年展「大万不插电」策展与场地研究、Rem Koolhaas《乡村，未来》展览专题研究，以及安徽歙县古村落历史建筑的数字化记录。探索游戏引擎作为「设计—模拟—制造」一体化平台的可能，关注未来人居创意工程设计技法的开发。",
+    bioEn: "Ziyi HE is a designer trained in architecture and art, with a Bachelor of Architecture from the Central Academy of Fine Arts. She has four years of architectural design and two years of product development experience, and now works on rapidly assembled, prefabricated modern timber building systems. She applies parametric methods to practical problems: generating and optimising timber joints with Rhino/Grasshopper, building parametric component families in Revit, and closing the loop to CNC fabrication. Her research experience covers the Bi-City Biennale of Urbanism/Architecture (Shenzhen), the thematic study of Rem Koolhaas's Countryside, The Future, and the digital documentation of historic buildings in Shexian, Anhui. Exploring game engines as an integrated platform for design, simulation and fabrication of future human habitats.",
+    education: [
+      "学士｜建筑学｜中央美术学院｜2014.09–2019.06"
+    ],
+    honors: [], appointments: [], papers: [],
+    projects: [
+      "可快速装配的木结构建筑产品系统构建｜奥雅椽为智造（深圳）科技有限公司 · 企业研发｜产品系统架构（参数化构件库与数字化工作流）｜2024.06–2024.12",
+      "广东某地市民中心公共建筑｜汇城建筑设计与研究（深圳）有限公司 · 商业项目｜方案设计及技术负责｜2022.10–2023.03",
+      "深圳建筑双城双年展 · 大万不插电｜深圳建筑双城双年展 · 展览研究｜策展助理及研究助理｜2022.10–2022.12",
+      "Rem Koolhaas《乡村，未来》展览专题研究｜中央美术学院 · 展览专题研究｜协助策展及研究｜2018.09–2019.01",
+      "安徽歙县古村落历史建筑保护与数字化记录｜中央美术学院 · 跨学科研究项目｜文化调研、数字化记录及展览｜2017.04"
+    ],
+    patents: [], portfolio: "", awards: []
   },
 {
     id: "zhao-tianle", group: "engineer",
